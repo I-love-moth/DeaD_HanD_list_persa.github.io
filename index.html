@@ -1246,7 +1246,7 @@ function rollUdacha(){
     document.getElementById('d3dResult').style.fontSize='40px';
     document.getElementById('d3dLabel').textContent='dУдача';
     document.getElementById('d3dOverlay').classList.add('show');
-    setTimeout(()=>document.getElementById('d3dOverlay').classList.remove('show'),2500);
+    setTimeout(()=>document.getElementById('d3dOverlay').classList.remove('show'),4500);
   }
 }
 
@@ -1264,7 +1264,7 @@ function show3d(val,label,crit,fail){
   rv.style.color=crit?'var(--yellow)':fail?'var(--red)':'var(--white)';
   rv.style.textShadow=crit?'0 0 30px var(--yellow),0 0 60px var(--yellow)':fail?'0 0 30px var(--red)':'0 0 30px var(--accent),0 0 60px var(--glow)';
   ov.classList.add('show');
-  setTimeout(()=>ov.classList.remove('show'),2000);
+  setTimeout(()=>ov.classList.remove('show'),4000);
 }
 function close3d(){document.getElementById('d3dOverlay').classList.remove('show');}
 
