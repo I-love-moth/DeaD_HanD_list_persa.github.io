@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DeaD HanD — Лист Персонажа v1.03</title>
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Oswald:wght@300;400;500;700&family=Orbitron:wght@400;700&family=Cinzel:wght@400;700&family=VT323&family=Permanent+Marker&family=Caveat:wght@600&family=Exo+2:wght@400;700&display=swap');
+
+/* ═══ KEYFRAMES ═══ */
+@keyframes fi{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes diceRoll{0%{transform:rotate(0)scale(1)}25%{transform:rotate(-20deg)scale(1.15)}60%{transform:rotate(12deg)scale(.9)}85%{transform:rotate(-6deg)scale(1.05)}100%{transform:rotate(0)scale(1)}}
+@keyframes diceBounce{0%{transform:translateY(0)}30%{transform:translateY(-10px)}55%{transform:translateY(3px)}75%{transform:translateY(-5px)}100%{transform:translateY(0)}}
+@keyframes diceShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)rotate(-3deg)}40%{transform:translateX(6px)rotate(3deg)}60%{transform:translateX(-4px)rotate(-2deg)}80%{transform:translateX(4px)rotate(2deg)}}
+@keyframes critFlash{0%{transform:scale(1)}30%{transform:scale(1.25);filter:brightness(2)drop-shadow(0 0 20px var(--yellow))}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes explode{0%{transform:scale(1);opacity:1}40%{transform:scale(2.5);opacity:.8;filter:brightness(3)drop-shadow(0 0 30px var(--yellow))}100%{transform:scale(4);opacity:0}}
+@keyframes neonPulse{0%,100%{text-shadow:0 0 5px var(--accent),0 0 10px var(--accent)}50%{text-shadow:0 0 20px var(--accent),0 0 40px var(--accent),0 0 60px var(--accent)}}
+@keyframes scanline{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes catWalk{0%{transform:translateX(-30px)}100%{transform:translateX(calc(100vw + 30px))}}
+@keyframes rainFall{0%{background-position:0 0}100%{background-position:0 200px}}
+@keyframes spin360{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes spinFull{0%{transform:rotateY(0deg)}100%{transform:rotateY(360deg)}}
+@keyframes pageFlip{0%{transform:rotateX(0)}50%{transform:rotateX(360deg)}100%{transform:rotateX(0)}}
+@keyframes termBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes magicOrbs{0%{transform:rotate(0deg) translateX(60px) rotate(0deg)}100%{transform:rotate(360deg) translateX(60px) rotate(-360deg)}}
+@keyframes wasteSun{0%,100%{box-shadow:0 0 40px 10px rgba(255,220,50,.3)}50%{box-shadow:0 0 80px 20px rgba(255,220,50,.6)}}
+@keyframes robotScan{0%{top:-10%}100%{top:110%}}
+@keyframes spaceTwinkle{0%,100%{opacity:.2}50%{opacity:1}}
+@keyframes chemBubble{0%{transform:translateY(0)scale(1);opacity:.6}100%{transform:translateY(-40px)scale(1.5);opacity:0}}
+@keyframes natureSway{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes facelessFlicker{0%,89%,91%,100%{opacity:1}90%{opacity:0}}
+@keyframes resultPop{0%{transform:scale(0.2);opacity:0}50%{transform:scale(1.15)}70%{transform:scale(0.95)}100%{transform:scale(1);opacity:1}}
+@keyframes resultGlow{0%,100%{filter:drop-shadow(0 0 20px var(--accent))}50%{filter:drop-shadow(0 0 50px var(--accent))drop-shadow(0 0 80px var(--yellow))}}
+@keyframes critExplosion{0%{transform:scale(1);opacity:1;filter:none}20%{transform:scale(1.5);opacity:1;filter:brightness(3)drop-shadow(0 0 40px var(--yellow))}60%{transform:scale(3);opacity:.6;filter:brightness(5)drop-shadow(0 0 80px #fff)}100%{transform:scale(5);opacity:0}}
+@keyframes spinPage{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+@keyframes romHearts{0%{transform:translateY(0)scale(1);opacity:.8}100%{transform:translateY(-80px)scale(.5);opacity:0}}
+
+/* ═══ CSS VARIABLES / THEMES ═══ */
+:root{
+  --bg:#0a0a0c;--bg2:#111116;--bg3:#18181f;--panel:#1a1a22;--panel2:#20202c;
+  --border:#2e2e3e;--border2:#3a3a50;
+  --accent:#c8432a;--accent2:#e05a3a;--accent3:#ff7655;
+  --yellow:#d4a017;--green:#2e7d32;--green2:#4caf50;--blue:#3a6bc7;--blue2:#5585e0;
+  --text:#d0cfc8;--text2:#8a8a99;--text3:#5a5a6a;--white:#f0ede8;--red:#c0392b;
+  --glow:rgba(200,67,42,0.18);
+  --font-main:'Rajdhani',sans-serif;--font-mono:'Share Tech Mono',monospace;--font-head:'Oswald',sans-serif;
+  --btn-border-radius:2px;--btn-style:none;
+  --header-bg:linear-gradient(135deg,#0d0d10 0%,#1a0a08 50%,#0d0d10 100%);
+  --sh-bg:linear-gradient(90deg,var(--accent) 0%,rgba(200,67,42,.4) 40%,transparent 100%);
+  --bg-extra:none;
+}
+
+/* ── NEON ── */
+[data-theme="neon"]{
+  --bg:#020212;--bg2:#040418;--bg3:#07071f;--panel:#0a0a28;--panel2:#0d0d30;
+  --border:#1a1a4a;--border2:#2a2a6a;
+  --accent:#0ff;--accent2:#0dd;--accent3:#8ff;
+  --yellow:#f0f;--green:#0f8;--green2:#0c6;--blue:#f0a;--blue2:#f4c;
+  --text:#cdf;--text2:#568;--text3:#234;--white:#eef8ff;--red:#f36;
+  --glow:rgba(0,255,255,0.25);
+  --font-head:'Orbitron',sans-serif;
+  --btn-border-radius:0px;
+  --header-bg:linear-gradient(135deg,#020212 0%,#080028 50%,#020212 100%);
+  --sh-bg:linear-gradient(90deg,rgba(0,255,255,.8) 0%,rgba(0,255,255,.3) 50%,transparent 100%);
+}
+[data-theme="neon"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,255,.025) 2px,rgba(0,255,255,.025) 4px);}
+[data-theme="neon"] body::after{content:'';position:fixed;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,transparent,rgba(0,255,255,.8),transparent);animation:scanline 4s linear infinite;pointer-events:none;z-index:9998;}
+[data-theme="neon"] .btn{clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);letter-spacing:3px;}
+[data-theme="neon"] .logo{animation:neonPulse 2s ease-in-out infinite;}
+
+/* ── RETRO ── */
+[data-theme="retro"]{
+  --bg:#1a0e00;--bg2:#211200;--bg3:#2a1800;--panel:#331d00;--panel2:#3c2200;
+  --border:#5a3800;--border2:#7a5000;
+  --accent:#f80;--accent2:#fa0;--accent3:#fc4;
+  --yellow:#fe0;--green:#4a0;--green2:#6c0;--blue:#08f;--blue2:#4af;
+  --text:#fc8;--text2:#a73;--text3:#642;--white:#fec;--red:#f30;
+  --glow:rgba(255,136,0,0.25);
+  --font-main:'VT323',monospace;--font-mono:'VT323',monospace;--font-head:'VT323',monospace;
+  --btn-border-radius:0px;
+  --header-bg:linear-gradient(135deg,#080400 0%,#1a0a00 50%,#080400 100%);
+  --sh-bg:linear-gradient(90deg,rgba(255,136,0,.9) 0%,rgba(255,136,0,.4) 50%,transparent 100%);
+}
+[data-theme="retro"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,100,0,.04) 3px,rgba(255,100,0,.04) 4px);}
+[data-theme="retro"] .btn{border-width:2px;letter-spacing:2px;}
+
+/* ── MINIMAL ── */
+[data-theme="minimal"]{
+  --bg:#fafafa;--bg2:#f2f2f2;--bg3:#e8e8e8;--panel:#fff;--panel2:#f5f5f5;
+  --border:#e0e0e0;--border2:#ccc;
+  --accent:#1a1a1a;--accent2:#333;--accent3:#555;
+  --yellow:#b8860b;--green:#2d6a2d;--green2:#3d8b3d;--blue:#1a3a6a;--blue2:#2d5a9a;
+  --text:#2a2a2a;--text2:#888;--text3:#bbb;--white:#111;--red:#c0392b;
+  --glow:rgba(0,0,0,0.08);
+  --font-main:'Exo 2',sans-serif;--font-head:'Exo 2',sans-serif;
+  --btn-border-radius:20px;
+  --header-bg:#ffffff;
+  --sh-bg:linear-gradient(90deg,#1a1a1a 0%,rgba(26,26,26,.15) 50%,transparent 100%);
+}
+[data-theme="minimal"] body{background-image:none;}
+[data-theme="minimal"] .btn{font-weight:700;letter-spacing:.5px;}
+
+/* ── MAGIC / PSIONICS ── */
+[data-theme="magic"]{
+  --bg:#060012;--bg2:#0c001e;--bg3:#12002c;--panel:#180038;--panel2:#1e0044;
+  --border:#3a0068;--border2:#5a009a;
+  --accent:#c44ff;--accent2:#d66ff;--accent3:#e88ff;
+  --yellow:#fd0;--green:#4f8;--green2:#0d6;--blue:#48f;--blue2:#6af;
+  --text:#dcbff;--text2:#886a99;--text3:#442266;--white:#f0e8ff;--red:#f48;
+  --glow:rgba(200,64,255,0.25);
+  --font-head:'Cinzel',serif;
+  --btn-border-radius:0px;
+  --header-bg:radial-gradient(ellipse at 50% 0%,#200050 0%,#060012 70%);
+  --sh-bg:linear-gradient(90deg,rgba(200,64,255,.9) 0%,rgba(100,0,200,.4) 50%,transparent 100%);
+}
+[data-theme="magic"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 20% 30%,rgba(150,0,255,.06) 0%,transparent 40%),
+  radial-gradient(ellipse at 80% 60%,rgba(0,100,255,.06) 0%,transparent 40%),
+  repeating-linear-gradient(30deg,transparent,transparent 40px,rgba(150,0,255,.02) 40px,rgba(150,0,255,.02) 41px),
+  repeating-linear-gradient(-30deg,transparent,transparent 40px,rgba(0,150,255,.02) 40px,rgba(0,150,255,.02) 41px);}
+[data-theme="magic"] .logo::before{content:'◈ ';color:#c44ff;}
+[data-theme="magic"] .logo::after{content:' ◈';color:#c44ff;}
+[data-theme="magic"] .btn{clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);letter-spacing:2px;}
+
+/* ── CAT ── */
+[data-theme="cat"]{
+  --bg:#1a0f08;--bg2:#231408;--bg3:#2e1a0e;--panel:#38200e;--panel2:#422614;
+  --border:#7a4a28;--border2:#9c6a3a;
+  --accent:#ff7733;--accent2:#ff9955;--accent3:#ffbb77;
+  --yellow:#ffdd88;--green:#88cc66;--green2:#aadd88;--blue:#88aadd;--blue2:#aaccee;
+  --text:#ffe0c0;--text2:#cc9966;--text3:#774433;--white:#fff5ee;--red:#ff5533;
+  --glow:rgba(255,119,51,0.25);
+  --font-main:'Caveat',cursive;--font-head:'Caveat',cursive;
+  --btn-border-radius:20px;
+  --header-bg:linear-gradient(135deg,#0f0804 0%,#2a1508 50%,#0f0804 100%);
+  --sh-bg:linear-gradient(90deg,rgba(255,119,51,.9) 0%,rgba(255,119,51,.3) 50%,transparent 100%);
+}
+[data-theme="cat"] body::before{content:'🐾';position:fixed;bottom:20px;right:20px;font-size:60px;opacity:.06;pointer-events:none;z-index:0;animation:float 4s ease-in-out infinite;}
+[data-theme="cat"] .btn{font-weight:700;}
+[data-theme="cat"] .logo::after{content:' 🐱';}
+
+/* ── ROBOT ── */
+[data-theme="robot"]{
+  --bg:#e8ecf0;--bg2:#d8dde3;--bg3:#c8cdd5;--panel:#f0f4f8;--panel2:#e4e8ee;
+  --border:#aab0bb;--border2:#8890a0;
+  --accent:#1a6aaa;--accent2:#2288cc;--accent3:#44aaee;
+  --yellow:#cc8800;--green:#228833;--green2:#44aa55;--blue:#1144aa;--blue2:#2266cc;
+  --text:#222833;--text2:#667788;--text3:#99aabb;--white:#111622;--red:#cc3322;
+  --glow:rgba(26,106,170,0.2);
+  --font-head:'Orbitron',sans-serif;
+  --btn-border-radius:0px;
+  --header-bg:linear-gradient(135deg,#c0c8d4 0%,#d8e0ea 50%,#c0c8d4 100%);
+  --sh-bg:linear-gradient(90deg,rgba(26,106,170,.8) 0%,rgba(26,106,170,.3) 50%,transparent 100%);
+}
+[data-theme="robot"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 24px,rgba(26,106,170,.04) 24px,rgba(26,106,170,.04) 25px),
+  repeating-linear-gradient(90deg,transparent,transparent 24px,rgba(26,106,170,.04) 24px,rgba(26,106,170,.04) 25px);}
+[data-theme="robot"] body::after{content:'';position:fixed;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,rgba(26,106,170,.6),transparent);animation:robotScan 3s linear infinite;pointer-events:none;z-index:9998;}
+[data-theme="robot"] .btn{border-width:2px;letter-spacing:2px;clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%);}
+
+/* ── CRIMSON ── */
+[data-theme="crimson"]{
+  --bg:#0c0000;--bg2:#160000;--bg3:#200000;--panel:#280000;--panel2:#320000;
+  --border:#550000;--border2:#770000;
+  --accent:#ff2200;--accent2:#ff4422;--accent3:#ff7755;
+  --yellow:#ffaa00;--green:#667700;--green2:#88aa00;--blue:#4466cc;--blue2:#6688ee;
+  --text:#ffccbb;--text2:#aa6644;--text3:#663322;--white:#ffeeee;--red:#ff6644;
+  --glow:rgba(255,34,0,0.25);
+  --btn-border-radius:0px;
+  --header-bg:radial-gradient(ellipse at 50% 100%,#300000 0%,#0c0000 70%);
+  --sh-bg:linear-gradient(90deg,rgba(255,34,0,1) 0%,rgba(255,34,0,.4) 50%,transparent 100%);
+}
+[data-theme="crimson"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 100%,rgba(200,0,0,.1) 0%,transparent 60%);}
+
+/* ── WASTELAND ── */
+[data-theme="wasteland"]{
+  --bg:#1a1400;--bg2:#221c00;--bg3:#2c2400;--panel:#342c00;--panel2:#3e3400;
+  --border:#6a5800;--border2:#8a7800;
+  --accent:#e8c030;--accent2:#f0d040;--accent3:#f8e060;
+  --yellow:#ffe844;--green:#88aa22;--green2:#aacc33;--blue:#4488cc;--blue2:#66aaee;
+  --text:#f0e0a0;--text2:#b09040;--text3:#706020;--white:#fffce8;--red:#dd4422;
+  --glow:rgba(240,200,48,0.2);
+  --btn-border-radius:3px;
+  --header-bg:linear-gradient(135deg,#0a0800 0%,#201a00 50%,#0a0800 100%);
+  --sh-bg:linear-gradient(90deg,rgba(240,200,48,.9) 0%,rgba(240,200,48,.4) 50%,transparent 100%);
+}
+[data-theme="wasteland"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% -20%,rgba(255,220,50,.15) 0%,transparent 60%),
+  url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='1' fill='rgba(200,180,0,.04)'/%3E%3Ccircle cx='80' cy='60' r='.5' fill='rgba(200,180,0,.03)'/%3E%3Ccircle cx='150' cy='30' r='1.5' fill='rgba(200,180,0,.03)'/%3E%3Ccircle cx='40' cy='120' r='1' fill='rgba(200,180,0,.04)'/%3E%3Ccircle cx='120' cy='150' r='2' fill='rgba(200,180,0,.02)'/%3E%3C/svg%3E");}
+[data-theme="wasteland"] .btn{letter-spacing:2px;}
+
+/* ── TERMINAL ── */
+[data-theme="terminal"]{
+  --bg:#000;--bg2:#030303;--bg3:#060606;--panel:#090909;--panel2:#0c0c0c;
+  --border:#1a1a1a;--border2:#2a2a2a;
+  --accent:#0f0;--accent2:#0c0;--accent3:#0a0;
+  --yellow:#ff0;--green:#0f0;--green2:#0c0;--blue:#0ff;--blue2:#0cc;
+  --text:#0c0;--text2:#060;--text3:#030;--white:#0f0;--red:#f00;
+  --glow:rgba(0,255,0,0.2);
+  --font-main:'Share Tech Mono',monospace;--font-mono:'Share Tech Mono',monospace;--font-head:'Share Tech Mono',monospace;
+  --btn-border-radius:0px;
+  --header-bg:#000;
+  --sh-bg:linear-gradient(90deg,rgba(0,255,0,.5) 0%,rgba(0,255,0,.15) 50%,transparent 100%);
+}
+[data-theme="terminal"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(0,255,0,.03) 1px,rgba(0,255,0,.03) 2px);}
+[data-theme="terminal"] .btn{border-style:solid;border-width:1px;}
+[data-theme="terminal"] .logo::before{content:'> ';animation:termBlink 1s step-end infinite;}
+
+/* ── ROMANCE ── */
+[data-theme="romance"]{
+  --bg:#100810;--bg2:#180c18;--bg3:#201420;--panel:#281828;--panel2:#301c30;
+  --border:#602060;--border2:#883088;
+  --accent:#ff4499;--accent2:#ff66aa;--accent3:#ff99cc;
+  --yellow:#ffcc88;--green:#88cc88;--green2:#aaeebb;--blue:#bb88ff;--blue2:#ddaaff;
+  --text:#ffe0f0;--text2:#aa7799;--text3:#664455;--white:#fff0f8;--red:#ff2255;
+  --glow:rgba(255,68,153,0.25);
+  --font-main:'Caveat',cursive;--font-head:'Cinzel',serif;
+  --btn-border-radius:20px;
+  --header-bg:radial-gradient(ellipse at 50% 0%,#300820 0%,#100810 70%);
+  --sh-bg:linear-gradient(90deg,rgba(255,68,153,.9) 0%,rgba(187,136,255,.4) 50%,transparent 100%);
+}
+[data-theme="romance"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 20% 30%,rgba(255,68,136,.06) 0%,transparent 40%),
+  radial-gradient(ellipse at 80% 70%,rgba(187,136,255,.06) 0%,transparent 40%);}
+
+/* ── SPACE ── */
+[data-theme="space"]{
+  --bg:#000008;--bg2:#000010;--bg3:#000018;--panel:#000022;--panel2:#000030;
+  --border:#001040;--border2:#002060;
+  --accent:#4488ff;--accent2:#66aaff;--accent3:#99ccff;
+  --yellow:#ffdd44;--green:#44ffaa;--green2:#22ddaa;--blue:#2244ff;--blue2:#4466ff;
+  --text:#aabbdd;--text2:#445566;--text3:#223344;--white:#ddeeff;--red:#ff4466;
+  --glow:rgba(68,136,255,0.2);
+  --btn-border-radius:50px;
+  --header-bg:radial-gradient(ellipse at 50% 0%,#001030 0%,#000008 70%);
+  --sh-bg:linear-gradient(90deg,rgba(68,136,255,.8) 0%,rgba(68,136,255,.3) 50%,transparent 100%);
+}
+[data-theme="space"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(1px 1px at 10% 15%,rgba(255,255,255,.6) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 45%,rgba(255,255,255,.4) 0%,transparent 100%),
+    radial-gradient(2px 2px at 40% 10%,rgba(200,220,255,.7) 0%,transparent 100%),
+    radial-gradient(1px 1px at 55% 60%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 25%,rgba(200,240,255,.6) 0%,transparent 100%),
+    radial-gradient(2px 2px at 85% 70%,rgba(255,255,255,.5) 0%,transparent 100%),
+    radial-gradient(1px 1px at 15% 80%,rgba(255,220,200,.4) 0%,transparent 100%),
+    radial-gradient(1px 1px at 90% 40%,rgba(255,255,255,.3) 0%,transparent 100%);}
+[data-theme="space"] .btn{letter-spacing:1px;}
+
+/* ── RAIN ── */
+[data-theme="rain"]{
+  --bg:#060c12;--bg2:#0a1218;--bg3:#0e1820;--panel:#121e2a;--panel2:#162430;
+  --border:#1e3040;--border2:#2a4455;
+  --accent:#44a0cc;--accent2:#55bbdd;--accent3:#88ccee;
+  --yellow:#aabbcc;--green:#44aa88;--green2:#55bb99;--blue:#3377aa;--blue2:#4499cc;
+  --text:#aabbcc;--text2:#556677;--text3:#334455;--white:#ddeeff;--red:#cc5544;
+  --glow:rgba(68,160,204,0.2);
+  --btn-border-radius:2px;
+  --header-bg:linear-gradient(135deg,#030608 0%,#0a1420 50%,#030608 100%);
+  --sh-bg:linear-gradient(90deg,rgba(68,160,204,.8) 0%,rgba(68,160,204,.3) 50%,transparent 100%);
+}
+[data-theme="rain"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:repeating-linear-gradient(175deg,transparent 0px,transparent 2px,rgba(100,200,255,.06) 2px,rgba(100,200,255,.06) 3px,transparent 3px,transparent 12px);
+  animation:rainFall .4s linear infinite;}
+
+/* ── CHEMISTRY ── */
+[data-theme="chemistry"]{
+  --bg:#001a0a;--bg2:#002010;--bg3:#002c16;--panel:#00381c;--panel2:#004022;
+  --border:#006630;--border2:#008840;
+  --accent:#00ff88;--accent2:#00dd66;--accent3:#44ffaa;
+  --yellow:#ddff00;--green:#00ee66;--green2:#00cc55;--blue:#00aaff;--blue2:#44ccff;
+  --text:#aaffcc;--text2:#448866;--text3:#225533;--white:#eeffee;--red:#ff4422;
+  --glow:rgba(0,255,136,0.2);
+  --font-head:'Orbitron',sans-serif;
+  --btn-border-radius:0px;
+  --header-bg:linear-gradient(135deg,#000a04 0%,#001a0a 50%,#000a04 100%);
+  --sh-bg:linear-gradient(90deg,rgba(0,255,136,.8) 0%,rgba(0,255,136,.3) 50%,transparent 100%);
+}
+[data-theme="chemistry"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 30px,rgba(0,255,136,.03) 30px,rgba(0,255,136,.03) 31px),
+  repeating-linear-gradient(60deg,transparent,transparent 30px,rgba(0,200,100,.02) 30px,rgba(0,200,100,.02) 31px),
+  repeating-linear-gradient(-60deg,transparent,transparent 30px,rgba(0,150,255,.02) 30px,rgba(0,150,255,.02) 31px);}
+
+/* ── NATURE ── */
+[data-theme="nature"]{
+  --bg:#0a1a08;--bg2:#0e2010;--bg3:#122814;--panel:#183018;--panel2:#1e381c;
+  --border:#335522;--border2:#446633;
+  --accent:#66cc44;--accent2:#88dd55;--accent3:#aaee77;
+  --yellow:#ddcc44;--green:#44aa22;--green2:#66cc33;--blue:#4499aa;--blue2:#66bbcc;
+  --text:#cceeaa;--text2:#779955;--text3:#446633;--white:#eeffee;--red:#cc4433;
+  --glow:rgba(102,204,68,0.2);
+  --font-main:'Caveat',cursive;--font-head:'Caveat',cursive;
+  --btn-border-radius:20px;
+  --header-bg:linear-gradient(135deg,#050e04 0%,#102010 50%,#050e04 100%);
+  --sh-bg:linear-gradient(90deg,rgba(102,204,68,.8) 0%,rgba(68,170,34,.4) 50%,transparent 100%);
+}
+[data-theme="nature"] body::before{content:'🍃';position:fixed;bottom:10px;left:10px;font-size:80px;opacity:.05;pointer-events:none;z-index:0;animation:natureSway 4s ease-in-out infinite;}
+
+/* ── FACELESS ── */
+[data-theme="faceless"]{
+  --bg:#0a0a0a;--bg2:#111;--bg3:#181818;--panel:#1e1e1e;--panel2:#242424;
+  --border:#333;--border2:#444;
+  --accent:#888;--accent2:#aaa;--accent3:#ccc;
+  --yellow:#aaa;--green:#888;--green2:#aaa;--blue:#777;--blue2:#999;
+  --text:#bbb;--text2:#666;--text3:#333;--white:#ddd;--red:#999;
+  --glow:rgba(180,180,180,0.1);
+  --font-main:'Share Tech Mono',monospace;--font-head:'Oswald',sans-serif;
+  --btn-border-radius:0px;
+  --header-bg:linear-gradient(135deg,#050505 0%,#111 50%,#050505 100%);
+  --sh-bg:linear-gradient(90deg,rgba(150,150,150,.5) 0%,rgba(100,100,100,.2) 50%,transparent 100%);
+}
+[data-theme="faceless"] body{animation:facelessFlicker 8s ease-in-out infinite;}
+[data-theme="faceless"] body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 1px,rgba(255,255,255,.01) 1px,rgba(255,255,255,.01) 2px);}
+
+/* ═══ BASE RESET ═══ */
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--font-main);font-size:15px;min-height:100vh;position:relative;}
+body::after{display:none!important;}
+
+/* ═══ LAYOUT ═══ */
+.app-header{background:var(--header-bg);border-bottom:2px solid var(--accent);padding:10px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 4px 30px var(--glow);gap:10px;flex-wrap:wrap;transition:background .4s;}
+.logo{font-family:var(--font-head);font-size:24px;font-weight:700;letter-spacing:4px;color:var(--white);text-shadow:0 0 20px var(--accent),0 0 40px var(--glow);line-height:1;transition:all .4s;}
+.logo span{color:var(--accent);}
+.logo-sub{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:3px;margin-top:2px;}
+.hdr-acts{display:flex;gap:5px;align-items:center;flex-wrap:wrap;}
+.save-info{font-family:var(--font-mono);font-size:10px;color:var(--text3);}
+.save-info.ok{color:var(--green2);}
+
+/* ═══ BUTTONS ═══ */
+.btn{font-family:var(--font-head);font-size:11px;font-weight:600;letter-spacing:1.5px;padding:7px 13px;border:1px solid var(--border2);border-radius:var(--btn-border-radius);cursor:pointer;transition:all .18s;background:var(--panel);color:var(--text);text-transform:uppercase;white-space:nowrap;position:relative;overflow:hidden;}
+.btn::after{content:'';position:absolute;inset:0;background:var(--accent);opacity:0;transition:opacity .18s;}
+.btn:hover{background:var(--panel2);border-color:var(--accent);color:var(--white);transform:translateY(-1px);box-shadow:0 4px 12px var(--glow);}
+.btn.accent{background:var(--accent);border-color:var(--accent2);color:var(--bg);font-weight:700;}
+.btn.accent:hover{background:var(--accent2);box-shadow:0 4px 20px var(--glow);}
+.btn.green{background:var(--green);border-color:var(--green2);color:#fff;}
+.btn.green:hover{background:var(--green2);box-shadow:0 4px 12px rgba(0,200,80,.3);}
+.btn.blue{background:var(--blue);border-color:var(--blue2);color:#fff;}
+.btn.blue:hover{background:var(--blue2);}
+.btn.sm{padding:3px 8px;font-size:10px;}
+
+/* ═══ GRID ═══ */
+.app-body{display:grid;grid-template-columns:270px 1fr 285px;min-height:calc(100vh - 54px);position:relative;z-index:1;}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:10px;transition:background .4s;}
+.main-col{padding:12px;display:flex;flex-direction:column;gap:11px;}
+.right-col{background:var(--bg2);border-left:1px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:10px;transition:background .4s;}
+
+/* ═══ SECTION ═══ */
+.sec{background:var(--panel);border:1px solid var(--border);border-radius:3px;overflow:hidden;transition:background .3s,border-color .3s;}
+.sh{background:var(--sh-bg);padding:7px 12px;font-family:var(--font-head);font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--white);display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.sb{padding:11px;}
+
+/* ═══ FORM ═══ */
+.fr{display:grid;gap:6px;margin-bottom:8px;}
+.fr.c2{grid-template-columns:1fr 1fr;}
+.fr.c3{grid-template-columns:1fr 1fr 1fr;}
+.fr.c4{grid-template-columns:1fr 1fr 1fr 1fr;}
+.fld{display:flex;flex-direction:column;gap:3px;}
+label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;}
+input,textarea,select{background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--white);font-family:var(--font-main);font-size:14px;font-weight:500;padding:5px 9px;width:100%;transition:border-color .15s,box-shadow .15s;outline:none;-moz-appearance:textfield;}
+input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--glow);}
+select option{background:var(--bg3);}
+textarea{resize:vertical;min-height:70px;line-height:1.6;}
+
+/* ═══ PORTRAIT ═══ */
+.portrait-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:10px;}
+.portrait-img{width:90px;height:90px;border-radius:50%;border:2px solid var(--accent);object-fit:cover;cursor:pointer;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:36px;transition:border-color .2s,box-shadow .2s;box-shadow:0 0 10px var(--glow);}
+.portrait-img:hover{border-color:var(--accent2);box-shadow:0 0 20px var(--glow);}
+.portrait-img img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+
+/* ═══ SKILL ═══ */
+.skill-block{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--border);transition:background .1s;}
+.skill-block:last-child{border-bottom:none;}
+.skill-block:hover{background:rgba(255,255,255,.025);}
+.sn{font-family:var(--font-head);font-size:14px;font-weight:600;letter-spacing:1px;color:var(--white);}
+.ss{font-family:var(--font-mono);font-size:9px;color:var(--text3);margin-top:1px;}
+.sl{display:flex;gap:3px;}
+.pip{width:13px;height:13px;border:1px solid var(--border2);border-radius:1px;background:transparent;cursor:pointer;transition:all .12s;}
+.pip.on{background:var(--accent);border-color:var(--accent2);box-shadow:0 0 5px var(--glow);}
+.pip.maxl{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 6px rgba(212,160,23,.6);}
+.sd{font-family:var(--font-mono);font-size:12px;color:var(--accent3);min-width:32px;text-align:center;}
+.rb{background:var(--bg3);border:1px solid var(--border);border-radius:var(--btn-border-radius);color:var(--text2);cursor:pointer;font-size:13px;padding:3px 6px;transition:all .12s;}
+.rb:hover{background:var(--accent);border-color:var(--accent2);color:var(--bg);}
+
+/* ═══ BAR ═══ */
+.bar-w{margin-bottom:9px;}
+.bar-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.bar-lbl{font-family:var(--font-head);font-size:11px;letter-spacing:2px;color:var(--text2);text-transform:uppercase;}
+.bar-val{font-family:var(--font-mono);font-size:14px;color:var(--white);font-weight:700;}
+.bar-track{height:10px;background:var(--bg3);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;transition:width .35s;border-radius:2px;}
+.hp-f{background:linear-gradient(90deg,#a02020,#e04040);}
+.ar-f{background:linear-gradient(90deg,#2c3e50,#5a7a8a);}
+.si{display:flex;gap:5px;align-items:center;margin-top:6px;}
+.si input{width:56px;text-align:center;font-size:16px;font-weight:700;padding:4px;}
+.mb{background:var(--bg3);border:1px solid var(--border);border-radius:var(--btn-border-radius);color:var(--text);cursor:pointer;font-size:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;transition:all .12s;flex-shrink:0;}
+.mb:hover{background:var(--panel2);border-color:var(--accent);color:var(--accent3);}
+
+/* ═══ PREVOZ ═══ */
+.pp-row{display:flex;gap:8px;justify-content:center;padding:7px 0;}
+.pp{width:36px;height:36px;border:2px solid var(--border2);border-radius:3px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:16px;color:var(--text3);background:var(--bg3);}
+.pp.on{background:linear-gradient(135deg,var(--accent),var(--accent2));border-color:var(--accent3);color:var(--bg);box-shadow:0 0 14px var(--glow);}
+
+/* ═══ CONDITIONS ═══ */
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.ci{display:flex;align-items:center;gap:7px;padding:6px 8px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:all .14s;user-select:none;}
+.ci.on{border-color:var(--accent);background:rgba(200,67,42,.12);}
+.cdot{width:8px;height:8px;border-radius:50%;background:var(--border2);flex-shrink:0;transition:background .14s;}
+.ci.on .cdot{background:var(--accent3);box-shadow:0 0 6px var(--glow);}
+.cn{font-family:var(--font-main);font-size:12px;font-weight:600;color:var(--text2);}
+.ci.on .cn{color:var(--white);}
+
+/* ═══ TRAUMA ═══ */
+.trauma-item{background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:7px 9px;margin-bottom:5px;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:8px;}
+.trauma-name{font-family:var(--font-main);font-size:13px;font-weight:600;color:var(--red);}
+.trauma-days{font-family:var(--font-mono);font-size:11px;color:var(--text2);white-space:nowrap;}
+.trauma-days input{width:40px;text-align:center;font-size:12px;padding:2px 4px;background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--white);}
+
+/* ═══ TRAIT/ABILITY ═══ */
+.tr-item{background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:8px 10px;margin-bottom:5px;}
+.tr-name{font-family:var(--font-head);font-size:13px;letter-spacing:1px;color:var(--accent3);font-weight:600;}
+.tr-desc{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.6;}
+.ab-item{background:var(--bg3);border:1px solid var(--border);border-radius:2px;padding:8px 10px;margin-bottom:5px;}
+.ab-name{font-family:var(--font-head);font-size:13px;letter-spacing:1px;color:var(--yellow);font-weight:600;}
+.ab-type{font-family:var(--font-mono);font-size:9px;color:var(--text3);padding:2px 5px;border:1px solid var(--border);border-radius:1px;}
+.ab-desc{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.6;}
+.ab-rb{background:var(--bg3);border:1px solid var(--yellow);border-radius:var(--btn-border-radius);color:var(--yellow);cursor:pointer;font-family:var(--font-mono);font-size:10px;padding:2px 6px;transition:all .12s;}
+.ab-rb:hover{background:var(--yellow);color:#000;}
+
+/* ═══ VLADENIE ═══ */
+.vl-grid{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px;}
+.vl-tag{padding:4px 10px;border:1px solid var(--border2);border-radius:var(--btn-border-radius);font-family:var(--font-main);font-size:12px;font-weight:600;cursor:pointer;color:var(--text2);background:var(--bg3);transition:all .14s;user-select:none;}
+.vl-tag:hover{border-color:var(--blue2);color:var(--white);}
+.vl-tag.on{background:var(--blue);border-color:var(--blue2);color:var(--bg);box-shadow:0 0 7px rgba(58,107,199,.4);}
+.vl-sub{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:1px;margin:9px 0 5px;}
+
+/* ═══ RATION ═══ */
+.ration-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--border);}
+.ration-lbl{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:1px;flex:1;}
+.ration-val{font-family:var(--font-mono);font-size:14px;color:var(--white);font-weight:700;}
+
+/* ═══ INVENTORY ═══ */
+.inv-full{background:var(--panel);border:1px solid var(--border);border-radius:3px;overflow:hidden;}
+.inv-t{width:100%;border-collapse:collapse;}
+.inv-t th{background:var(--bg3);font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;padding:7px 8px;text-align:left;border-bottom:1px solid var(--border2);font-weight:400;}
+.inv-t td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.inv-t tr:last-child td{border-bottom:none;}
+.inv-t tr:hover td{background:rgba(255,255,255,.015);}
+.inv-nm{font-family:var(--font-main);font-size:13px;font-weight:700;color:var(--white);}
+.inv-dt{font-family:var(--font-mono);font-size:9px;color:var(--text3);margin-top:2px;}
+.qty-w{display:flex;align-items:center;gap:3px;}
+.qty-b{background:var(--bg3);border:1px solid var(--border);border-radius:2px;color:var(--text2);cursor:pointer;font-size:13px;width:22px;height:22px;display:flex;align-items:center;justify-content:center;transition:all .1s;flex-shrink:0;}
+.qty-b:hover{background:var(--accent);color:var(--bg);border-color:var(--accent2);}
+.qty-in{width:40px;text-align:center;font-size:13px;padding:2px 4px;font-weight:700;}
+.badge{font-family:var(--font-mono);font-size:9px;padding:2px 5px;border-radius:2px;letter-spacing:1px;cursor:pointer;border:1px solid transparent;transition:all .12s;}
+.b-ok{background:rgba(46,125,50,.2);color:#81c784;border-color:rgba(76,175,80,.3);}
+.b-dm{background:rgba(212,160,23,.15);color:#f9a825;border-color:rgba(212,160,23,.3);}
+.b-br{background:rgba(192,57,43,.15);color:#ef5350;border-color:rgba(192,57,43,.3);}
+.del-btn{background:transparent;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:2px 4px;transition:color .12s;line-height:1;}
+.del-btn:hover{color:var(--red);}
+.add-inv-form{display:none;padding:11px;background:rgba(200,67,42,.06);border-top:1px solid var(--accent);}
+.dmg-btn{background:var(--bg3);border:1px solid var(--red);border-radius:var(--btn-border-radius);color:var(--red);cursor:pointer;font-family:var(--font-mono);font-size:9px;padding:2px 6px;transition:all .12s;}
+.dmg-btn:hover{background:var(--red);color:#fff;}
+
+/* ═══ DICE ═══ */
+.dice-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.db{background:var(--bg3);border:1px solid var(--border);border-radius:var(--btn-border-radius);color:var(--text);cursor:pointer;font-family:var(--font-mono);font-size:12px;padding:10px 4px;text-align:center;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:2px;position:relative;overflow:hidden;}
+.db .di{font-size:20px;transition:transform .2s;}
+.db:hover{background:var(--accent);border-color:var(--accent2);color:var(--bg);transform:translateY(-2px);box-shadow:0 5px 16px var(--glow);}
+.db:active{transform:scale(.95);}
+.db.rolling{animation:diceRoll .55s ease;}
+.db.bounce{animation:diceBounce .65s ease;}
+.db.shake{animation:diceShake .45s ease;}
+.db.flash-crit{animation:critFlash .55s ease;}
+.db.explode-crit .di{animation:explode .6s ease forwards;}
+
+/* ═══ ROLL LOG ═══ */
+.rlog{background:var(--bg3);border:1px solid var(--border);border-radius:2px;height:165px;overflow-y:auto;padding:6px;font-family:var(--font-mono);font-size:11px;scrollbar-width:thin;scrollbar-color:var(--border2) transparent;}
+.re{padding:3px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;gap:6px;align-items:flex-start;animation:fi .2s ease;}
+.rt{color:var(--text3);flex-shrink:0;}
+.rl{color:var(--text2);flex:1;}
+.rv{color:var(--accent3);font-weight:bold;flex-shrink:0;}
+.rv.crit{color:var(--yellow);}
+.rv.fail{color:var(--red);}
+
+/* ═══ 3D OVERLAY ═══ */
+.dice3d-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9989;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.dice3d-overlay.show{display:flex;}
+.d3d-box{text-align:center;position:relative;}
+.d3d-ring{width:160px;height:160px;border-radius:50%;border:3px solid var(--accent);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px var(--glow),inset 0 0 40px var(--glow);position:relative;animation:resultGlow 1s ease infinite;}
+.dice3d-result{font-family:var(--font-head);font-size:72px;font-weight:900;color:var(--white);animation:resultPop .5s cubic-bezier(.34,1.56,.64,1);}
+.dice3d-label{font-family:var(--font-mono);font-size:13px;color:var(--text2);letter-spacing:3px;margin-top:8px;}
+.dice3d-close{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:16px;}
+
+/* ═══ DISCORD ═══ */
+.dc-box{background:rgba(88,101,242,.09);border:1px solid rgba(88,101,242,.3);border-radius:3px;padding:10px;margin-top:4px;}
+.dc-title{font-family:var(--font-head);font-size:11px;letter-spacing:2px;color:#7289da;text-transform:uppercase;margin-bottom:6px;}
+.wh-in{background:var(--bg3);border:1px solid rgba(88,101,242,.35);border-radius:2px;color:var(--text2);font-family:var(--font-mono);font-size:10px;padding:5px 8px;width:100%;outline:none;margin-bottom:6px;}
+.wh-in:focus{border-color:#7289da;}
+.ds{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:5px;min-height:14px;transition:color .2s;}
+.ds.ok{color:var(--green2);}
+.ds.err{color:var(--red);}
+
+/* ═══ CLOUD ═══ */
+.cl-box{background:rgba(58,107,199,.09);border:1px solid rgba(58,107,199,.3);border-radius:3px;padding:10px;margin-top:4px;}
+.cl-title{font-family:var(--font-head);font-size:11px;letter-spacing:2px;color:var(--blue2);text-transform:uppercase;margin-bottom:6px;}
+.cl-st{font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-top:5px;min-height:14px;transition:color .2s;}
+.cl-st.ok{color:var(--green2);}
+.cl-st.err{color:var(--red);}
+
+/* ═══ THEME PICKER ═══ */
+.theme-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+.th-dot{padding:6px 4px;border:1px solid var(--border);border-radius:3px;cursor:pointer;font-family:var(--font-mono);font-size:9px;text-align:center;transition:all .15s;color:var(--text2);background:var(--bg3);letter-spacing:.3px;}
+.th-dot:hover{border-color:var(--accent);color:var(--white);}
+.th-dot.active{border-color:var(--accent);background:var(--accent);color:var(--bg);}
+
+/* ═══ ANIM TOGGLES ═══ */
+.anim-row{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);}
+.anim-row:last-child{border-bottom:none;}
+.anim-lbl{font-family:var(--font-mono);font-size:10px;color:var(--text2);letter-spacing:1px;}
+.toggle{width:36px;height:18px;border:1px solid var(--border2);border-radius:9px;position:relative;cursor:pointer;transition:background .2s;background:var(--bg3);flex-shrink:0;}
+.toggle.on{background:var(--accent);}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--text2);transition:transform .2s;}
+.toggle.on::after{transform:translateX(18px);background:var(--bg);}
+
+/* ═══ UDACHA ═══ */
+.udacha-result{background:var(--bg3);border:1px solid var(--border);border-radius:3px;padding:12px;text-align:center;margin-top:8px;display:none;animation:fadeUp .3s ease;}
+.udacha-label{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:2px;margin-bottom:6px;}
+.udacha-text{font-family:var(--font-head);font-size:16px;font-weight:700;letter-spacing:1px;}
+
+/* ═══ DICE OPTS ═══ */
+.dice-opts{display:flex;gap:5px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+.dice-opts input{width:50px;font-size:13px;padding:4px 6px;}
+.dice-opts select{font-size:12px;padding:4px 5px;}
+
+/* ═══ MODAL ═══ */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:500;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-ov.open{display:flex;}
+.modal{background:var(--panel);border:1px solid var(--border2);border-top:2px solid var(--accent);border-radius:3px;padding:20px;width:min(480px,95vw);box-shadow:0 24px 60px rgba(0,0,0,.5);max-height:90vh;overflow-y:auto;}
+.modal-t{font-family:var(--font-head);font-size:16px;letter-spacing:2px;color:var(--white);text-transform:uppercase;margin-bottom:13px;}
+.modal-a{display:flex;gap:7px;justify-content:flex-end;margin-top:13px;}
+
+/* ═══ MISC ═══ */
+.div{border:none;border-top:1px solid var(--border);margin:8px 0;}
+#toast{position:fixed;bottom:20px;right:20px;background:var(--panel2);border:1px solid var(--border2);border-left:3px solid var(--accent);padding:9px 14px;font-family:var(--font-mono);font-size:12px;color:var(--text);border-radius:2px;z-index:9999;transform:translateY(60px);opacity:0;transition:all .25s;max-width:260px;}
+#toast.show{transform:none;opacity:1;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.empty-hint{color:var(--text3);font-size:11px;font-family:var(--font-mono);padding:5px 0;}
+@media(max-width:1050px){.app-body{grid-template-columns:240px 1fr 255px;}}
+@media(max-width:820px){.app-body{grid-template-columns:1fr;}.sidebar,.right-col{border:none;border-bottom:1px solid var(--border);}}
+
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div>
+    <div class="logo">DeaD <span>H</span>an<span>D</span></div>
+    <div class="logo-sub">СИСТЕМА ПРАВИЛ v1.03</div>
+  </div>
+  <div class="hdr-acts">
+    <span class="save-info" id="saveInfo">● не сохранено</span>
+    <button class="btn blue" onclick="openModal('cloudModal')">☁ ОБЛАКО</button>
+    <button class="btn" onclick="newChar()">⊕ НОВЫЙ</button>
+    <button class="btn" onclick="document.getElementById('lf').click()">↑ ФАЙЛ</button>
+    <button class="btn green" onclick="saveFile()">↓ СКАЧАТЬ</button>
+    <input type="file" id="lf" style="display:none" accept=".json" onchange="handleLoad(event)">
+  </div>
+</header>
+
+<div class="app-body">
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sec">
+    <div class="sh">◈ ПЕРСОНАЖ</div>
+    <div class="sb">
+      <div class="portrait-wrap">
+        <div class="portrait-img" id="portraitDiv" onclick="document.getElementById('pf').click()" title="Нажми чтобы загрузить портрет">
+          <span id="portraitEmoji">⚔</span>
+          <img id="portraitImg" style="display:none;width:100%;height:100%;border-radius:50%;object-fit:cover">
+        </div>
+        <input type="file" id="pf" style="display:none" accept="image/*" onchange="handlePortrait(event)">
+        <button class="btn sm" onclick="clearPortrait()" id="clearPortBtn" style="display:none;font-size:9px">✕ убрать</button>
+      </div>
+      <div class="fld" style="margin-bottom:8px"><label>Имя / Кличка</label><input type="text" id="charName" placeholder="Имя..." oninput="dirty()"></div>
+      <div class="fr c2">
+        <div class="fld"><label>Уровень</label><input type="number" id="charLevel" value="1" min="1" max="20" oninput="dirty()"></div>
+        <div class="fld"><label>Валюта $</label><input type="number" id="charCash" value="0" min="0" oninput="dirty()"></div>
+      </div>
+      <!-- RATION -->
+      <div class="ration-row">
+        <div>
+          <div class="anim-lbl">🍖 РАЦИОН</div>
+          <div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);margin-top:2px">потребление / остаток</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px">
+          <input type="number" id="rationConsume" value="1" min="0" max="10" style="width:44px;text-align:center;font-size:14px;font-weight:700;padding:3px" oninput="dirty()">
+          <span style="color:var(--text3);font-family:var(--font-mono)">/</span>
+          <input type="number" id="rationStock" value="0" min="0" style="width:50px;text-align:center;font-size:14px;font-weight:700;padding:3px" oninput="dirty()">
+          <button class="btn sm accent" onclick="eatDay()" title="Потратить 1 день рациона" style="padding:4px 8px">−1 день</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">♥ ЗДОРОВЬЕ &amp; БРОНЯ</div>
+    <div class="sb">
+      <div class="bar-w">
+        <div class="bar-hd"><span class="bar-lbl">HP</span><span class="bar-val" id="hpDisp">10/10</span></div>
+        <div class="bar-track"><div class="bar-fill hp-f" id="hpBar" style="width:100%"></div></div>
+        <div class="si">
+          <button class="mb" onclick="mS('hpCur',-1)">−</button>
+          <div class="fld"><label>ТЕК.</label><input type="number" id="hpCur" value="10" min="0" oninput="updHp()"></div>
+          <button class="mb" onclick="mS('hpCur',1)">+</button>
+          <div class="fld" style="margin-left:4px"><label>МАКС.</label><input type="number" id="hpMax" value="10" min="1" oninput="updHp()"></div>
+        </div>
+      </div>
+      <hr class="div">
+      <div class="bar-w">
+        <div class="bar-hd"><span class="bar-lbl">БРОНЯ</span><span class="bar-val" id="arDisp">0/0</span></div>
+        <div class="bar-track"><div class="bar-fill ar-f" id="arBar" style="width:0%"></div></div>
+        <div class="si">
+          <button class="mb" onclick="mS('arCur',-1)">−</button>
+          <div class="fld"><label>ТЕК.</label><input type="number" id="arCur" value="0" min="0" oninput="updAr()"></div>
+          <button class="mb" onclick="mS('arCur',1)">+</button>
+          <div class="fld" style="margin-left:4px"><label>МАКС.</label><input type="number" id="arMax" value="0" min="0" oninput="updAr()"></div>
+        </div>
+        <div class="fr c3" style="margin-top:8px;margin-bottom:0">
+          <div class="fld"><label>Бр. ур.</label>
+            <select id="arBr" onchange="dirty()"><option>Бр0</option><option>Бр1</option><option>Бр2</option><option>Бр3</option><option>Бр4</option><option>Бр5</option><option>Бр6</option></select>
+          </div>
+          <div class="fld"><label>Сл. попад.</label><input type="number" id="arHitDC" value="6" min="1" oninput="dirty()"></div>
+          <div class="fld"><label>Название</label><input type="text" id="arName" placeholder="..." oninput="dirty()"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">★ ПРЕВОЗМОГАНИЕ</div>
+    <div class="sb">
+      <div class="pp-row"><div class="pp" onclick="tPP(0)">1</div><div class="pp" onclick="tPP(1)">2</div><div class="pp" onclick="tPP(2)">3</div></div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);text-align:center;margin-top:2px">МАКС. 3 ОЧКА</div>
+    </div>
+  </div>
+</div><!-- /sidebar -->
+
+<!-- MAIN -->
+<div class="main-col">
+  <div class="sec">
+    <div class="sh">⚡ УМЕНИЯ</div>
+    <div id="sklCont"></div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">⊞ ОСОБЫЙ БРОСОК</div>
+    <div class="sb">
+      <div style="display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap">
+        <div class="fld"><label>Название</label><input type="text" id="crName" placeholder="Описание..." style="width:140px"></div>
+        <div class="fld"><label>Кол-во к.</label><input type="number" id="crCount" value="1" min="1" max="20" style="width:52px"></div>
+        <div class="fld"><label>Кость</label><select id="crDice" style="width:70px"><option>d4</option><option>d6</option><option selected>d10</option><option>d12</option><option>d20</option><option>d100</option></select></div>
+        <div class="fld"><label>Бонус</label><input type="number" id="crBonus" value="0" style="width:52px"></div>
+        <div style="display:flex;gap:4px">
+          <button class="btn" onclick="rollCustom('n')">🎲</button>
+          <button class="btn" style="color:var(--yellow);border-color:var(--yellow)" onclick="rollCustom('a')">↑ ПРЕИМ</button>
+          <button class="btn" style="color:var(--red);border-color:var(--red)" onclick="rollCustom('d')">↓ ПОМЕХА</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh"><span>◆ ОСОБЕННОСТИ</span><button class="btn sm" onclick="openAddTrait()">+ ДОБ.</button></div>
+    <div class="sb"><div id="trList"></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">⊙ ВЛАДЕНИЯ</div>
+    <div class="sb">
+      <div class="vl-sub">ДАЛЬНИЙ БОЙ</div>
+      <div class="vl-grid" id="vlD">
+        <div class="vl-tag" onclick="tVl(this)">Примитивное</div><div class="vl-tag" onclick="tVl(this)">Пистолеты</div>
+        <div class="vl-tag" onclick="tVl(this)">Винтовки</div><div class="vl-tag" onclick="tVl(this)">Дробовики</div>
+        <div class="vl-tag" onclick="tVl(this)">Пулемёты</div><div class="vl-tag" onclick="tVl(this)">Метательное</div>
+      </div>
+      <div class="vl-sub">БЛИЖНИЙ БОЙ</div>
+      <div class="vl-grid" id="vlB">
+        <div class="vl-tag" onclick="tVl(this)">Режущее</div><div class="vl-tag" onclick="tVl(this)">Колющее</div>
+        <div class="vl-tag" onclick="tVl(this)">Дробящее</div><div class="vl-tag" onclick="tVl(this)">Иное</div>
+      </div>
+      <div class="vl-sub">СВОЁ ВЛАДЕНИЕ</div>
+      <div style="display:flex;gap:5px">
+        <input type="text" id="vlIn" placeholder="Добавить..." style="flex:1">
+        <button class="btn sm" onclick="addSvoe()">+</button>
+      </div>
+      <div class="vl-grid" id="vlSvoe" style="margin-top:6px"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh"><span>⚗ СПОСОБНОСТИ</span><button class="btn sm" onclick="openAddAbil()">+ ДОБ.</button></div>
+    <div class="sb"><div id="abList"></div></div>
+  </div>
+
+  <!-- СОСТОЯНИЯ И ЗДОРОВЬЕ -->
+  <div class="sec">
+    <div class="sh">⚠ СОСТОЯНИЯ И ЗДОРОВЬЕ</div>
+    <div class="sb">
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:1px;margin-bottom:6px">КРАТКОВРЕМЕННЫЕ</div>
+      <div class="cg" id="condGrid"></div>
+      <hr class="div">
+      <div class="fr c3" style="margin-bottom:10px">
+        <div class="fld"><label>Истощение (1-3)</label><input type="number" id="exh" value="0" min="0" max="3" oninput="dirty()"></div>
+        <div class="fld"><label>Психоз (1-3)</label><input type="number" id="psy" value="0" min="0" max="3" oninput="dirty()"></div>
+        <div class="fld"><label>Заражение (1-3)</label><input type="number" id="inf" value="0" min="0" max="3" oninput="dirty()"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:1px">ТРАВМЫ И БОЛЕЗНИ</div>
+        <button class="btn sm accent" onclick="openAddTrauma()">+ ТРАВМА</button>
+      </div>
+      <div id="traumaList"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">✎ ЗАМЕТКИ</div>
+    <div class="sb"><textarea id="notes" placeholder="Задания, контакты..."></textarea></div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div class="inv-full">
+    <div class="sh"><span>⊟ ИНВЕНТАРЬ</span><button class="btn accent sm" onclick="togAddInv()">+ ПРЕДМЕТ</button></div>
+    <div style="overflow-x:auto">
+      <table class="inv-t">
+        <thead><tr>
+          <th>ТИП</th><th style="min-width:120px">НАЗВАНИЕ</th><th style="min-width:120px">ДЕТАЛИ</th>
+          <th style="min-width:90px">КОЛ-ВО</th><th>СОСТОЯНИЕ</th><th></th><th></th>
+        </tr></thead>
+        <tbody id="invBody"></tbody>
+      </table>
+    </div>
+    <div class="add-inv-form" id="addInvForm">
+      <div style="display:grid;grid-template-columns:90px 1fr 1fr 52px 82px auto;gap:6px;align-items:end">
+        <div class="fld"><label>Тип</label>
+          <select id="ni_type" onchange="toggleDmgField()">
+            <option value="weapon">⚔ Оружие</option><option value="armor">🛡 Броня</option>
+            <option value="item">◎ Предмет</option><option value="material">⬡ Мат.</option><option value="ammo">● Патроны</option>
+          </select>
+        </div>
+        <div class="fld"><label>Название</label><input type="text" id="ni_name" placeholder="Название..."></div>
+        <div class="fld"><label>Детали</label><input type="text" id="ni_detail" placeholder="[Бр2] Дал:25..."></div>
+        <div class="fld"><label>Кол-во</label><input type="number" id="ni_qty" value="1" min="0"></div>
+        <div class="fld"><label>Состояние</label><select id="ni_st"><option value="ok">OK</option><option value="damaged">Повр.</option><option value="broken">Слом.</option></select></div>
+        <div style="display:flex;gap:4px;align-items:flex-end"><button class="btn accent" onclick="addInv()">ОК</button><button class="btn" onclick="togAddInv()">✕</button></div>
+      </div>
+      <div class="fld" id="ni_dmg_row" style="margin-top:7px">
+        <label>Урон оружия (напр. 2d6Б)</label>
+        <input type="text" id="ni_dmg" placeholder="1d10Б, доп: +2d8 если цель дальше 20 кл.">
+      </div>
+    </div>
+  </div>
+</div><!-- /main -->
+
+<!-- RIGHT -->
+<div class="right-col">
+  <div class="sec">
+    <div class="sh">⬡ КУБИКИ</div>
+    <div class="sb">
+      <div class="dice-opts">
+        <div class="fld"><label>Кол-во</label><input type="number" id="dCount" value="1" min="1" max="20"></div>
+        <div class="fld"><label>Бонус</label><input type="number" id="dBonus" value="0"></div>
+        <div class="fld"><label>Режим</label>
+          <select id="dMode"><option value="n">Обычный</option><option value="a">↑ Преим.</option><option value="d">↓ Помеха</option></select>
+        </div>
+      </div>
+      <div class="dice-grid">
+        <button class="db" id="db2" onclick="rollDBtn(2,'d2','🪙')"><span class="di">🪙</span>d2</button>
+        <button class="db" id="db4" onclick="rollDBtn(4,'d4','△')"><span class="di" style="font-size:18px">△</span>d4</button>
+        <button class="db" id="db6" onclick="rollDBtn(6,'d6','▪')"><span class="di" style="font-size:20px">▪</span>d6</button>
+        <button class="db" id="db8" onclick="rollDBtn(8,'d8','◆')"><span class="di">◆</span>d8</button>
+        <button class="db" id="db10" onclick="rollDBtn(10,'d10','⬟')"><span class="di">⬟</span>d10</button>
+        <button class="db" id="db12" onclick="rollDBtn(12,'d12','⬠')"><span class="di">⬠</span>d12</button>
+        <button class="db" id="db20" onclick="rollDBtn(20,'d20','⬡')"><span class="di">⬡</span>d20</button>
+        <button class="db" id="db100" onclick="rollDBtn(100,'d100','%')"><span class="di" style="font-size:16px">%</span>d100</button>
+        <button class="db" style="border-color:var(--yellow);color:var(--yellow)" onclick="rollUdacha()"><span class="di">🍀</span><span style="font-size:9px">dУдача</span></button>
+      </div>
+      <div style="display:flex;gap:5px;margin-top:7px">
+        <button class="btn" style="flex:1;font-size:10px" onclick="rollInit()">⚔ ИНИЦИАТИВА</button>
+      </div>
+      <div class="udacha-result" id="udachaRes">
+        <div class="udacha-label">УДАЧА СУДЬБЫ</div>
+        <div class="udacha-text" id="udachaText"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh" style="justify-content:space-between">
+      <span>📋 ЛОГ БРОСКОВ</span>
+      <button onclick="clearLog()" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:10px;font-family:var(--font-mono)">ОЧИСТ.</button>
+    </div>
+    <div class="sb" style="padding:5px">
+      <div class="rlog" id="rlog"><div class="empty-hint" style="text-align:center;padding:16px 0">Броски появятся здесь...</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">💬 DISCORD</div>
+    <div class="sb">
+      <div class="dc-box">
+        <div class="dc-title">⚙ WEBHOOK URL</div>
+        <input type="text" class="wh-in" id="whUrl" placeholder="https://discord.com/api/webhooks/..." oninput="dirty()">
+        <div style="display:flex;gap:5px">
+          <button class="btn" style="flex:1;font-size:10px;color:#7289da;border-color:#7289da" onclick="testWH()">ПРОВЕРИТЬ</button>
+          <button class="btn" style="flex:1;font-size:10px" onclick="sendLast()">📤 ОТПРАВИТЬ</button>
+        </div>
+        <div class="ds" id="dcSt">Не подключено</div>
+      </div>
+      <div style="margin-top:8px;display:flex;align-items:center;gap:6px">
+        <label style="display:flex;align-items:center;gap:5px;cursor:pointer;font-size:12px;color:var(--text2)">
+          <input type="checkbox" id="autoSend" style="width:13px;height:13px;accent-color:var(--accent)">
+          Авто-отправка бросков
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">☁ ОБЛАКО</div>
+    <div class="sb">
+      <div class="cl-box">
+        <div class="cl-title">🔑 КЛЮЧ</div>
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text3);margin-bottom:7px;line-height:1.6">Сохрани по ключу. Открой снова — введи ключ — загрузится.</div>
+        <div class="fld" style="margin-bottom:6px"><label>Ключ / пароль</label><input type="password" id="cloudKey" placeholder="мой_персонаж..."></div>
+        <div style="display:flex;gap:5px">
+          <button class="btn green" style="flex:1;font-size:10px" onclick="cloudSave()">💾 СОХРАНИТЬ</button>
+          <button class="btn blue" style="flex:1;font-size:10px" onclick="cloudLoad()">↑ ЗАГРУЗИТЬ</button>
+        </div>
+        <div class="cl-st" id="clSt">—</div>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);margin-top:7px;line-height:1.6">⚠ Только в ЭТОМ браузере. Для переноса — «↓ Скачать».</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">🎨 ТЕМЫ</div>
+    <div class="sb"><div class="theme-grid" id="themeGrid"></div></div>
+  </div>
+
+  <div class="sec">
+    <div class="sh">✨ АНИМАЦИИ</div>
+    <div class="sb">
+      <div class="anim-row"><span class="anim-lbl">Включить анимации</span><div class="toggle on" id="togAnim" onclick="tAnim('anim')"></div></div>
+      <div class="anim-row"><span class="anim-lbl">3D визуализация бросков</span><div class="toggle on" id="tog3d" onclick="tAnim('3d')"></div></div>
+      <div class="anim-row"><span class="anim-lbl">Бросок с отскоком</span><div class="toggle on" id="togBounce" onclick="tAnim('bounce')"></div></div>
+      <div class="anim-row"><span class="anim-lbl">Вспышка крита ⭐</span><div class="toggle on" id="togCrit" onclick="tAnim('crit')"></div></div>
+      <div class="anim-row"><span class="anim-lbl">Тряска при провале 💀</span><div class="toggle on" id="togShake" onclick="tAnim('shake')"></div></div>
+      <div class="anim-row"><span class="anim-lbl">🔄 Сальто страницы</span>
+        <button class="btn sm accent" onclick="doSalto()">САЛЬТО!</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div><!-- /app-body -->
+
+<!-- 3D OVERLAY -->
+<div class="dice3d-overlay" id="d3dOverlay" onclick="close3d()">
+  <div class="d3d-box">
+    <div class="d3d-ring">
+      <div class="dice3d-result" id="d3dResult">?</div>
+    </div>
+    <div class="dice3d-label" id="d3dLabel"></div>
+    <div class="dice3d-close">нажми чтобы закрыть</div>
+  </div>
+</div>
+<!-- CRIT EXPLOSION OVERLAY -->
+<div id="critOverlay" style="position:fixed;inset:0;pointer-events:none;z-index:9990;display:flex;align-items:center;justify-content:center;display:none;">
+  <div id="critStar" style="font-size:80px;animation:critExplosion .8s ease forwards;">⭐</div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-ov" id="traitModal">
+  <div class="modal">
+    <div class="modal-t">Добавить особенность</div>
+    <div class="fld" style="margin-bottom:9px"><label>Название</label><input type="text" id="trN" placeholder="Преступник..."></div>
+    <div class="fld"><label>Описание</label><textarea id="trD" placeholder="Эффект, бонусы..."></textarea></div>
+    <div class="modal-a"><button class="btn" onclick="closeModal('traitModal')">ОТМЕНА</button><button class="btn accent" onclick="saveTrait()">СОХРАНИТЬ</button></div>
+  </div>
+</div>
+<div class="modal-ov" id="abilModal">
+  <div class="modal">
+    <div class="modal-t">Добавить способность</div>
+    <div class="fr c2" style="margin-bottom:0">
+      <div class="fld"><label>Название</label><input type="text" id="abN" placeholder="Берсерк..."></div>
+      <div class="fld"><label>Тип</label><input type="text" id="abT" placeholder="Пассивная..."></div>
+    </div>
+    <div class="fld" style="margin-top:8px"><label>Описание</label><textarea id="abD" placeholder="Эффект..."></textarea></div>
+    <div class="fr c2" style="margin-top:8px;margin-bottom:0">
+      <div class="fld"><label>Кость броска</label><select id="abDice"><option value="">— без броска —</option><option>d4</option><option>d6</option><option>d8</option><option>d10</option><option>d12</option></select></div>
+      <div class="fld"><label>Бонус</label><input type="number" id="abBon" value="0"></div>
+    </div>
+    <div class="modal-a"><button class="btn" onclick="closeModal('abilModal')">ОТМЕНА</button><button class="btn accent" onclick="saveAbil()">СОХРАНИТЬ</button></div>
+  </div>
+</div>
+<div class="modal-ov" id="traumaModal">
+  <div class="modal">
+    <div class="modal-t">Добавить травму / болезнь</div>
+    <div class="fr c2" style="margin-bottom:0">
+      <div class="fld"><label>Название</label><input type="text" id="tmN" placeholder="Перелом..."></div>
+      <div class="fld"><label>Дней до снятия</label><input type="number" id="tmDays" value="3" min="0"></div>
+    </div>
+    <div class="fld" style="margin-top:8px"><label>Эффект</label><textarea id="tmD" style="min-height:50px" placeholder="Эффект, штрафы..."></textarea></div>
+    <div class="modal-a"><button class="btn" onclick="closeModal('traumaModal')">ОТМЕНА</button><button class="btn accent" onclick="saveTrauma()">СОХРАНИТЬ</button></div>
+  </div>
+</div>
+<div class="modal-ov" id="dmgModal">
+  <div class="modal">
+    <div class="modal-t" id="dmgModalTitle">Бросок урона</div>
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--text2);margin-bottom:12px" id="dmgModalInfo"></div>
+    <div class="fr c2">
+      <div class="fld"><label>Кость урона</label><select id="dmgDice"><option>d4</option><option>d6</option><option selected>d8</option><option>d10</option><option>d12</option></select></div>
+      <div class="fld"><label>Кол-во</label><input type="number" id="dmgCount" value="1" min="1" max="20"></div>
+    </div>
+    <div class="fr c2">
+      <div class="fld"><label>Бонус</label><input type="number" id="dmgBonus" value="0"></div>
+      <div class="fld"><label>Доп. кости (условие)</label><input type="text" id="dmgExtra" placeholder="2d8..."></div>
+    </div>
+    <div class="fld"><label>Условие</label><input type="text" id="dmgCond" placeholder="цель дальше 20 клеток..."></div>
+    <div class="modal-a">
+      <button class="btn" onclick="closeModal('dmgModal')">ОТМЕНА</button>
+      <button class="btn accent" onclick="rollDmg()">🎲 БРОСИТЬ УРОН</button>
+    </div>
+  </div>
+</div>
+<div class="modal-ov" id="cloudModal">
+  <div class="modal">
+    <div class="modal-t">☁ Облачное сохранение</div>
+    <div style="font-family:var(--font-mono);font-size:11px;color:var(--text2);margin-bottom:13px;line-height:1.7">
+      Персонаж сохраняется в <strong style="color:var(--white)">локальном хранилище браузера</strong> по ключу.<br>
+      Открой HTML снова → введи ключ → данные восстановятся.<br><br>
+      <span style="color:var(--yellow)">⚠ Не очищай данные браузера. Резервная копия — «↓ Скачать».</span>
+    </div>
+    <div class="fld" style="margin-bottom:9px"><label>Ключ / пароль</label><input type="text" id="cmKey" placeholder="мой_сталкер_42"></div>
+    <div style="display:flex;gap:7px">
+      <button class="btn green" style="flex:1" onclick="cloudSaveM()">💾 СОХРАНИТЬ</button>
+      <button class="btn blue" style="flex:1" onclick="cloudLoadM()">↑ ЗАГРУЗИТЬ</button>
+      <button class="btn" onclick="closeModal('cloudModal')">ЗАКРЫТЬ</button>
+    </div>
+    <div class="cl-st" id="cmSt" style="margin-top:9px;font-size:12px">—</div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<script>
+// ═══ CONSTANTS ═══
+const SKL=[
+  {id:'napor',name:'Напор',sub:'Ближний бой, сила, запугивание'},
+  {id:'provor',name:'Проворство',sub:'Дальний бой, уклонение, трюки'},
+  {id:'krepkost',name:'Крепость',sub:'Здоровье, выносливость, яды'},
+  {id:'razum',name:'Разум',sub:'Психика, концентрация, восприятие'},
+  {id:'tehnika',name:'Техника',sub:'Создание, починка, взлом'},
+  {id:'kontakt',name:'Контакт',sub:'Речь, обман, убеждение'},
+];
+const DM=[null,'d4','d6','d8','d10','d12'];
+const CONDS=['Сбит с ног','Оглушён','Ступор','Ослеплён','Горит','Паника','Кровотечение','Опутан'];
+const UDACHA_BAD=['Засада врагов','Потеря ресурса','Повреждение предмета','Погодный удар','Сделать проверку','Потеря','Шум'];
+const UDACHA_NEUT=['Встреча с NPC','Пустая зона','Следы','Заброшенное место','Ничего не происходит'];
+const UDACHA_GOOD=['Лёгкая находка','Найден ресурс','Короткий путь','Информация','Временный бонус','Укрытие','Тайник с ценностями','Уникальный NPC'];
+const UDACHA_ALL=[...UDACHA_BAD,...UDACHA_NEUT,...UDACHA_GOOD];
+const THEMES=[
+  {id:'classic',name:'Классика'},{id:'neon',name:'Неон'},{id:'retro',name:'Ретро'},
+  {id:'minimal',name:'Минимал'},{id:'magic',name:'Магия'},{id:'cat',name:'Кот'},
+  {id:'robot',name:'Робот'},{id:'crimson',name:'Алый'},{id:'wasteland',name:'Пустошь'},
+  {id:'terminal',name:'Терминал'},{id:'romance',name:'Романтика'},{id:'space',name:'Космос'},
+  {id:'rain',name:'Дождь'},{id:'chemistry',name:'Химия'},{id:'nature',name:'Природа'},
+  {id:'faceless',name:'Безликий'},
+];
+// Discord embed colors per theme
+const THEME_COLORS={
+  classic:0xC8432A,neon:0x00FFFF,retro:0xFF8800,minimal:0x333333,magic:0xCC44FF,
+  cat:0xFF7733,robot:0x1A6AAA,crimson:0xFF2200,wasteland:0xE8C030,terminal:0x00FF00,
+  romance:0xFF4499,space:0x4488FF,rain:0x44A0CC,chemistry:0x00FF88,nature:0x66CC44,faceless:0x888888
+};
+
+// ═══ STATE ═══
+let S={
+  name:'',level:1,cash:0,portrait:'',
+  hpCur:10,hpMax:10,arCur:0,arMax:0,arBr:'Бр0',arName:'',arHitDC:6,
+  rationConsume:1,rationStock:0,
+  prevoz:0,
+  skills:{napor:0,provor:0,krepkost:0,razum:0,tehnika:0,kontakt:0},
+  conds:[],exh:0,psy:0,inf:0,traumas:[],
+  traits:[],abilities:[],inventory:[],
+  vladenie:[],vladenieSvoe:[],
+  notes:'',whUrl:'',autoSend:false
+};
+let rlog=[],lastRoll='',isDirty=false;
+let animCfg={anim:true,'3d':true,bounce:true,crit:true,shake:true};
+let currentTheme='classic';
+let currentDmgItem=null;
+let d3dTimer=null;
+
+// ═══ INIT ═══
+window.addEventListener('DOMContentLoaded',()=>{
+  loadPrefs();buildThemes();
+  rSkills();rConds();rInv();rTraits();rAbils();rTraumas();
+  updHp();updAr();updPP();
+  const a=localStorage.getItem('dh_auto');
+  if(a){try{const d=JSON.parse(a);if(d.name){applyS(d);toast('↺ Авто восстановлено');isDirty=false;updInfo();}}catch(e){}}
+  document.getElementById('ni_dmg_row').style.display='block';
+});
+setInterval(()=>{if(isDirty){localStorage.setItem('dh_auto',JSON.stringify(collect()));updInfo();}},20000);
+function dirty(){isDirty=true;updInfo();}
+function updInfo(){const e=document.getElementById('saveInfo');if(isDirty){e.textContent='● не сохранено';e.className='save-info';}else{e.textContent='✓ сохранено';e.className='save-info ok';}}
+
+// ═══ THEME ═══
+function loadPrefs(){
+  const p=localStorage.getItem('dh_prefs');
+  if(p){try{const d=JSON.parse(p);currentTheme=d.theme||'classic';animCfg={...animCfg,...d.anim};}catch(e){}}
+  applyTheme(currentTheme);updateAnimToggles();
+}
+function savePrefs(){localStorage.setItem('dh_prefs',JSON.stringify({theme:currentTheme,anim:animCfg}));}
+function applyTheme(t){
+  currentTheme=t;
+  document.documentElement.setAttribute('data-theme',t==='classic'?'':t);
+  document.querySelectorAll('.th-dot').forEach(el=>el.classList.toggle('active',el.dataset.t===t));
+  savePrefs();
+}
+function buildThemes(){
+  document.getElementById('themeGrid').innerHTML=THEMES.map(t=>`<div class="th-dot${t.id===currentTheme?' active':''}" data-t="${t.id}" onclick="applyTheme('${t.id}')">${t.name}</div>`).join('');
+}
+function tAnim(k){animCfg[k]=!animCfg[k];updateAnimToggles();savePrefs();}
+function updateAnimToggles(){
+  const map={anim:'togAnim','3d':'tog3d',bounce:'togBounce',crit:'togCrit',shake:'togShake'};
+  Object.entries(map).forEach(([k,id])=>{const e=document.getElementById(id);if(e)e.classList.toggle('on',!!animCfg[k]);});
+}
+function doSalto(){
+  document.body.style.animation='spinPage 0.6s ease';
+  setTimeout(()=>document.body.style.animation='',700);
+}
+
+// ═══ PORTRAIT ═══
+function handlePortrait(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    S.portrait=ev.target.result;
+    document.getElementById('portraitEmoji').style.display='none';
+    const img=document.getElementById('portraitImg');img.src=S.portrait;img.style.display='block';
+    document.getElementById('clearPortBtn').style.display='block';
+    dirty();
+  };
+  r.readAsDataURL(f);e.target.value='';
+}
+function clearPortrait(){
+  S.portrait='';
+  document.getElementById('portraitEmoji').style.display='';
+  document.getElementById('portraitImg').style.display='none';
+  document.getElementById('clearPortBtn').style.display='none';
+  dirty();
+}
+function restorePortrait(){
+  if(S.portrait){
+    document.getElementById('portraitEmoji').style.display='none';
+    const img=document.getElementById('portraitImg');img.src=S.portrait;img.style.display='block';
+    document.getElementById('clearPortBtn').style.display='block';
+  } else {
+    document.getElementById('portraitEmoji').style.display='';
+    document.getElementById('portraitImg').style.display='none';
+    document.getElementById('clearPortBtn').style.display='none';
+  }
+}
+
+// ═══ SKILLS ═══
+function rSkills(){
+  document.getElementById('sklCont').innerHTML=SKL.map(s=>{
+    const lv=S.skills[s.id];
+    // Level 5: 2d12 instead of d10+d12
+    let diceLabel=lv>0?(lv===5?'2d12':DM[lv]):'—';
+    return`<div class="skill-block">
+      <div><div class="sn">${s.name}</div><div class="ss">${s.sub}</div></div>
+      <div class="sl">${[1,2,3,4,5].map(i=>`<div class="pip ${lv>=i?(i===5?'maxl':'on'):''}" onclick="setSk('${s.id}',${i})"></div>`).join('')}</div>
+      <div class="sd">${diceLabel}</div>
+      <button class="rb" onclick="rollSkill('${s.id}','${s.name}')">🎲</button>
+    </div>`;
+  }).join('');
+}
+function setSk(id,lv){if(S.skills[id]===lv)lv=0;S.skills[id]=lv;dirty();rSkills();}
+
+// ═══ HP / ARMOR ═══
+function updHp(){
+  const c=iv('hpCur'),m=iv('hpMax')||1;
+  document.getElementById('hpBar').style.width=Math.min(100,Math.max(0,(c/m)*100))+'%';
+  document.getElementById('hpDisp').textContent=`${c}/${m}`;dirty();
+}
+function updAr(){
+  const c=iv('arCur'),m=iv('arMax');
+  document.getElementById('arBar').style.width=(m>0?Math.min(100,Math.max(0,(c/m)*100)):0)+'%';
+  document.getElementById('arDisp').textContent=`${c}/${m}`;dirty();
+}
+function mS(id,d){const e=document.getElementById(id);e.value=Math.max(0,(parseInt(e.value)||0)+d);if(id==='hpCur')updHp();if(id==='arCur')updAr();}
+function iv(id){return parseInt(document.getElementById(id).value)||0;}
+
+// ═══ PREVOZ ═══
+function updPP(){document.querySelectorAll('.pp').forEach((p,i)=>p.classList.toggle('on',i<S.prevoz));}
+function tPP(i){S.prevoz=(S.prevoz===i+1)?i:i+1;updPP();dirty();}
+
+// ═══ CONDITIONS ═══
+function rConds(){
+  document.getElementById('condGrid').innerHTML=CONDS.map(c=>`
+    <div class="ci ${S.conds.includes(c)?'on':''}" onclick="tCond('${c}')">
+      <div class="cdot"></div><div class="cn">${c}</div>
+    </div>`).join('');
+}
+function tCond(c){const i=S.conds.indexOf(c);if(i>=0)S.conds.splice(i,1);else S.conds.push(c);rConds();dirty();}
+
+// ═══ TRAUMAS ═══
+function rTraumas(){
+  const el=document.getElementById('traumaList');
+  el.innerHTML=(S.traumas||[]).map((t,i)=>`
+    <div class="trauma-item">
+      <div>
+        <div class="trauma-name">⚕ ${t.name}</div>
+        ${t.desc?`<div style="font-size:11px;color:var(--text3);margin-top:2px">${t.desc}</div>`:''}
+      </div>
+      <div class="trauma-days">
+        <div style="font-family:var(--font-mono);font-size:9px;color:var(--text3);margin-bottom:2px">ДНЕЙ</div>
+        <div style="display:flex;align-items:center;gap:3px">
+          <button class="qty-b" onclick="chTraumaDays(${i},-1)">−</button>
+          <input class="qty-in" type="number" value="${t.days}" min="0" onchange="setTraumaDays(${i},this.value)">
+          <button class="qty-b" onclick="chTraumaDays(${i},1)">+</button>
+        </div>
+      </div>
+      <button class="del-btn" onclick="delTrauma(${i})">✕</button>
+    </div>`).join('')||'<div class="empty-hint">Нет травм</div>';
+}
+function openAddTrauma(){document.getElementById('tmN').value='';document.getElementById('tmDays').value='3';document.getElementById('tmD').value='';openModal('traumaModal');}
+function saveTrauma(){
+  const n=document.getElementById('tmN').value.trim();if(!n){toast('Введите название');return;}
+  if(!S.traumas)S.traumas=[];
+  S.traumas.push({name:n,days:parseInt(document.getElementById('tmDays').value)||0,desc:document.getElementById('tmD').value.trim()});
+  rTraumas();closeModal('traumaModal');dirty();
+}
+function delTrauma(i){S.traumas.splice(i,1);rTraumas();dirty();}
+function chTraumaDays(i,d){S.traumas[i].days=Math.max(0,(S.traumas[i].days||0)+d);rTraumas();dirty();}
+function setTraumaDays(i,v){S.traumas[i].days=Math.max(0,parseInt(v)||0);dirty();}
+
+// ═══ TRAITS ═══
+function rTraits(){
+  document.getElementById('trList').innerHTML=(S.traits||[]).map((t,i)=>`
+    <div class="tr-item"><div style="display:flex;justify-content:space-between">
+      <div class="tr-name">◆ ${t.name}</div><button class="del-btn" onclick="delTrait(${i})">✕</button>
+    </div>${t.desc?`<div class="tr-desc">${t.desc}</div>`:''}</div>`).join('')||'<div class="empty-hint">Нет особенностей</div>';
+}
+function openAddTrait(){document.getElementById('trN').value='';document.getElementById('trD').value='';openModal('traitModal');}
+function saveTrait(){const n=document.getElementById('trN').value.trim();if(!n){toast('Введите название');return;}S.traits.push({name:n,desc:document.getElementById('trD').value.trim()});rTraits();closeModal('traitModal');dirty();}
+function delTrait(i){S.traits.splice(i,1);rTraits();dirty();}
+
+// ═══ VLADENIE ═══
+function tVl(el){el.classList.toggle('on');saveVl();dirty();}
+function saveVl(){S.vladenie=[...document.querySelectorAll('#vlD .vl-tag.on,#vlB .vl-tag.on')].map(t=>t.textContent.trim());}
+function restoreVl(){
+  document.querySelectorAll('#vlD .vl-tag,#vlB .vl-tag').forEach(t=>t.classList.toggle('on',S.vladenie.includes(t.textContent.trim())));
+  document.getElementById('vlSvoe').innerHTML=(S.vladenieSvoe||[]).map((v,i)=>`<div class="vl-tag on">${v}<span onclick="event.stopPropagation();delSvoe(${i})" style="margin-left:3px;opacity:.5;font-size:9px;cursor:pointer">✕</span></div>`).join('');
+}
+function addSvoe(){const v=document.getElementById('vlIn').value.trim();if(!v)return;if(!S.vladenieSvoe)S.vladenieSvoe=[];S.vladenieSvoe.push(v);document.getElementById('vlIn').value='';restoreVl();dirty();}
+function delSvoe(i){S.vladenieSvoe.splice(i,1);restoreVl();dirty();}
+
+// ═══ ABILITIES ═══
+function rAbils(){
+  document.getElementById('abList').innerHTML=(S.abilities||[]).map((a,i)=>`
+    <div class="ab-item"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:7px">
+      <div><div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <span class="ab-name">⚗ ${a.name}</span>${a.type?`<span class="ab-type">${a.type}</span>`:''}
+      </div>${a.desc?`<div class="ab-desc">${a.desc}</div>`:''}</div>
+      <div style="display:flex;gap:3px;flex-shrink:0">
+        ${a.dice?`<button class="ab-rb" onclick="rollAbil(${i})">🎲${a.dice}</button>`:''}
+        <button class="del-btn" onclick="delAbil(${i})">✕</button>
+      </div>
+    </div></div>`).join('')||'<div class="empty-hint">Нет способностей</div>';
+}
+function openAddAbil(){['abN','abT','abD'].forEach(id=>document.getElementById(id).value='');document.getElementById('abBon').value='0';document.getElementById('abDice').value='';openModal('abilModal');}
+function saveAbil(){const n=document.getElementById('abN').value.trim();if(!n){toast('Введите название');return;}S.abilities.push({name:n,type:document.getElementById('abT').value.trim(),desc:document.getElementById('abD').value.trim(),dice:document.getElementById('abDice').value,bonus:parseInt(document.getElementById('abBon').value)||0});rAbils();closeModal('abilModal');dirty();}
+function delAbil(i){S.abilities.splice(i,1);rAbils();dirty();}
+function rollAbil(i){
+  const a=S.abilities[i];const sides=parseInt(a.dice.substring(1));
+  const r=rnd(sides)+a.bonus;
+  addLog(`${a.name}[${a.dice}${a.bonus?'+'+a.bonus:''}]`,r,sides,r-a.bonus===sides,r-a.bonus===1);
+  if(document.getElementById('autoSend').checked)whPost(`⚗ **${gn()}** использует **${a.name}**: \`${r}\``);
+}
+
+// ═══ RATION ═══
+function eatDay(){
+  const consume=parseInt(document.getElementById('rationConsume').value)||1;
+  const stock=parseInt(document.getElementById('rationStock').value)||0;
+  if(stock<=0){toast('⚠ Рацион закончился! Персонаж голодает.');return;}
+  const newStock=Math.max(0,stock-consume);
+  document.getElementById('rationStock').value=newStock;
+  dirty();
+  if(newStock===0)toast('⚠ Последний рацион использован!');
+  else toast(`🍖 Рацион: −${consume} → осталось ${newStock}`);
+  if(document.getElementById('autoSend').checked)whPost(`🍖 **${gn()}** — потреблено рационов: ${consume}, остаток: ${newStock}`);
+}
+
+// ═══ INVENTORY ═══
+const TI={weapon:'⚔',armor:'🛡',item:'◎',material:'⬡',ammo:'●'};
+const SL={ok:'OK',damaged:'ПОВР.',broken:'СЛОМ.'};
+const SC={ok:'damaged',damaged:'broken',broken:'ok'};
+function parseDmg(str){if(!str)return null;const m=str.match(/(\d+)d(\d+)/i);if(!m)return null;return{count:parseInt(m[1]),sides:parseInt(m[2])};}
+function rInv(){
+  const b=document.getElementById('invBody');
+  if(!S.inventory.length){b.innerHTML=`<tr><td colspan="7" style="text-align:center;color:var(--text3);font-family:var(--font-mono);font-size:11px;padding:18px">Инвентарь пуст</td></tr>`;return;}
+  b.innerHTML=S.inventory.map((it,i)=>{
+    const isWep=it.type==='weapon';
+    const hasDmg=isWep&&it.dmg&&parseDmg(it.dmg);
+    return`<tr>
+      <td style="font-size:16px;text-align:center">${TI[it.type]||'◎'}</td>
+      <td><div class="inv-nm">${it.name}</div></td>
+      <td class="inv-dt">${isWep&&it.dmg?`<span style="color:var(--accent3);font-weight:700">${it.dmg}</span>`:''}${it.detail?`<div>${it.detail}</div>`:''}</td>
+      <td><div class="qty-w"><button class="qty-b" onclick="chQty(${i},-1)">−</button><input class="qty-in" type="number" value="${it.qty||1}" min="0" onchange="setQty(${i},this.value)"><button class="qty-b" onclick="chQty(${i},1)">+</button></div></td>
+      <td><span class="badge b-${it.st||'ok'}" onclick="cycSt(${i})">${SL[it.st||'ok']}</span></td>
+      <td>${hasDmg?`<button class="dmg-btn" onclick="openDmgModal(${i})">🎲 УРОН</button>`:''}</td>
+      <td><button class="del-btn" onclick="delInv(${i})">✕</button></td>
+    </tr>`;
+  }).join('');
+}
+function toggleDmgField(){
+  const t=document.getElementById('ni_type').value;
+  document.getElementById('ni_dmg_row').style.display=t==='weapon'?'block':'none';
+}
+function togAddInv(){const f=document.getElementById('addInvForm');f.style.display=f.style.display==='block'?'none':'block';if(f.style.display==='block'){document.getElementById('ni_name').focus();toggleDmgField();}}
+function addInv(){
+  const n=document.getElementById('ni_name').value.trim();if(!n){toast('Введите название');return;}
+  const t=document.getElementById('ni_type').value;
+  S.inventory.push({name:n,type:t,dmg:t==='weapon'?document.getElementById('ni_dmg').value.trim():'',detail:document.getElementById('ni_detail').value.trim(),qty:parseInt(document.getElementById('ni_qty').value)||1,st:document.getElementById('ni_st').value});
+  ['ni_name','ni_dmg','ni_detail'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('ni_qty').value='1';
+  rInv();dirty();
+}
+function delInv(i){S.inventory.splice(i,1);rInv();dirty();}
+function chQty(i,d){S.inventory[i].qty=Math.max(0,(S.inventory[i].qty||1)+d);rInv();dirty();}
+function setQty(i,v){S.inventory[i].qty=Math.max(0,parseInt(v)||0);dirty();}
+function cycSt(i){S.inventory[i].st=SC[S.inventory[i].st||'ok'];rInv();dirty();}
+function openDmgModal(i){
+  currentDmgItem=i;const it=S.inventory[i];
+  document.getElementById('dmgModalTitle').textContent='Урон: '+it.name;
+  const p=parseDmg(it.dmg||'');
+  document.getElementById('dmgModalInfo').textContent=(it.dmg||'нет урона');
+  if(p){document.getElementById('dmgDice').value='d'+p.sides;document.getElementById('dmgCount').value=p.count;}
+  document.getElementById('dmgBonus').value='0';document.getElementById('dmgExtra').value='';document.getElementById('dmgCond').value='';
+  openModal('dmgModal');
+}
+function rollDmg(){
+  const sides=parseInt(document.getElementById('dmgDice').value.substring(1));
+  const cnt=parseInt(document.getElementById('dmgCount').value)||1;
+  const bon=parseInt(document.getElementById('dmgBonus').value)||0;
+  const extraStr=document.getElementById('dmgExtra').value.trim();
+  let rolls=[],total=0;
+  for(let i=0;i<cnt;i++){const r=rnd(sides);rolls.push(r);total+=r;}
+  total+=bon;
+  let detail=`${cnt}d${sides}(${rolls.join('+')})+${bon}`;
+  if(extraStr){const ep=parseDmg(extraStr);if(ep){let et=0,er=[];for(let i=0;i<ep.count;i++){const r=rnd(ep.sides);er.push(r);et+=r;}detail+=`+${extraStr}(${er.join('+')}=${et})`;total+=et;}}
+  const it=currentDmgItem!=null?S.inventory[currentDmgItem]:{name:'Урон'};
+  addLog(`${it.name} УРОН`,total,sides,false,false,detail);
+  if(document.getElementById('autoSend').checked)whPost(`⚔ **${gn()}** → **${it.name}** урон: \`${total}\` *(${detail})*`);
+  closeModal('dmgModal');show3d(total,`${it.name} УРОН`,false,false);
+}
+
+// ═══ DICE ═══
+function rnd(s){return Math.floor(Math.random()*s)+1;}
+function rollDBtn(sides,label,icon){
+  const count=iv('dCount')||1;const bonus=iv('dBonus')||0;const mode=document.getElementById('dMode').value;
+  const btnEl=document.getElementById('db'+sides);
+  let rolls=[],total=0;
+  if(mode==='n'){for(let i=0;i<count;i++){const r=rnd(sides);rolls.push(r);total+=r;}}
+  else{for(let i=0;i<count;i++){const r1=rnd(sides),r2=rnd(sides);const r=mode==='a'?Math.max(r1,r2):Math.min(r1,r2);rolls.push(r);total+=r;}}
+  total+=bonus;
+  const isCrit=count===1&&rolls[0]===sides;
+  const isFail=count===1&&rolls[0]===1;
+  const det=count>1||bonus?`(${rolls.join('+')})${bonus?'+'+bonus:''}${mode!='n'?(mode==='a'?'↑':'↓'):''}`:''
+  if(animCfg.anim&&btnEl){
+    btnEl.classList.remove('rolling','bounce','shake','flash-crit');void btnEl.offsetWidth;
+    if(animCfg.bounce)btnEl.classList.add('bounce');else btnEl.classList.add('rolling');
+    if(isCrit&&animCfg.crit){btnEl.classList.add('flash-crit');triggerCritExplosion();}
+    if(isFail&&animCfg.shake)btnEl.classList.add('shake');
+    setTimeout(()=>btnEl.classList.remove('rolling','bounce','shake','flash-crit'),700);
+  }
+  const fullLabel=`${label}${count>1?'x'+count:''}${bonus?'+'+bonus:''}${mode==='a'?'↑':mode==='d'?'↓':''}`;
+  addLog(fullLabel,total,sides,isCrit,isFail,det);
+  if(document.getElementById('autoSend').checked)whPost(buildDCMsg(fullLabel,total,sides,isCrit,isFail,det));
+  show3d(total,fullLabel,isCrit,isFail);
+  return total;
+}
+function rollSkill(id,name){
+  const lv=S.skills[id];
+  let total,det;
+  if(lv===5){
+    // 2d12 at level 5
+    const r1=rnd(12),r2=rnd(12);total=r1+r2;det=`2d12(${r1}+${r2})`;
+  } else {
+    const base=rnd(10);const sk=lv>0?rnd([0,4,6,8,10,12][lv]):0;total=base+sk;
+    det=lv>0?`д10(${base})+${DM[lv]}(${sk})`:`д10(${base})`;
+  }
+  const lbl=`${name}[${lv===5?'2d12':'д10'+(lv>0?'+'+DM[lv]:'')}]`;
+  const isCrit=lv===5?(total===24):(total-Math.floor(total)===0&&total>=20);
+  const isFail=total<=1;
+  if(isCrit&&animCfg.anim&&animCfg.crit)triggerCritExplosion();
+  addLog(lbl,total,0,isCrit,isFail,det);
+  if(document.getElementById('autoSend').checked)whPost(buildDCMsg(name,total,0,isCrit,isFail,det));
+  show3d(total,lbl,isCrit,isFail);
+}
+function rollInit(){
+  const r=S.skills.razum;const b=rnd(10);let rd=0,det;
+  if(r===5){const r1=rnd(12);rd=r1;det=`д10(${b})+2d12 top(${rd})`;}
+  else{rd=r>0?rnd([0,4,6,8,10,12][r]):0;det=`д10(${b})${r>0?'+'+DM[r]+'('+rd+')':''}`;}
+  const t=b+rd;
+  addLog('Инициатива',t,0,false,false,det);
+  if(document.getElementById('autoSend').checked)whPost(`⚔ **${gn()}** — Инициатива: \`${t}\``);
+  show3d(t,'Инициатива',false,false);
+}
+function rollCustom(mode){
+  const nm=document.getElementById('crName').value||'Бросок';
+  const ds=document.getElementById('crDice').value;const cnt=parseInt(document.getElementById('crCount').value)||1;
+  const bon=parseInt(document.getElementById('crBonus').value)||0;const sides=parseInt(ds.substring(1));
+  let rolls=[],total=0;
+  for(let i=0;i<cnt;i++){let r;if(mode==='a')r=Math.max(rnd(sides),rnd(sides));else if(mode==='d')r=Math.min(rnd(sides),rnd(sides));else r=rnd(sides);rolls.push(r);total+=r;}
+  total+=bon;
+  const det=`${cnt}${ds}(${rolls.join(',')})${bon?'+'+bon:''}${mode==='a'?'↑':mode==='d'?'↓':''}`;
+  addLog(nm,total,0,false,false,det);
+  if(document.getElementById('autoSend').checked)whPost(buildDCMsg(nm,total,0,false,false,det));
+  show3d(total,nm,false,false);
+}
+function rollUdacha(){
+  const idx=Math.floor(Math.random()*UDACHA_ALL.length);const result=UDACHA_ALL[idx];
+  const isGood=UDACHA_GOOD.includes(result);const isBad=UDACHA_BAD.includes(result);
+  const color=isGood?'var(--green2)':isBad?'var(--red)':'var(--yellow)';
+  addLog('🍀 dУдача',result,0,isGood,isBad,'');
+  const res=document.getElementById('udachaRes');const txt=document.getElementById('udachaText');
+  txt.textContent=result;txt.style.color=color;res.style.display='block';
+  res.style.animation='none';void res.offsetWidth;res.style.animation='fadeUp .3s ease';
+  if(document.getElementById('autoSend').checked)
+    whPost(`🍀 **${gn()}** — Удача Судьбы: **${result}**`);
+  show3d(result,'🍀 dУдача',isGood,isBad);
+}
+
+// ═══ 3D VISUAL ═══
+function show3d(val,label,crit,fail){
+  if(!animCfg['3d'])return;
+  if(d3dTimer)clearTimeout(d3dTimer);
+  const ov=document.getElementById('d3dOverlay');
+  const rv=document.getElementById('d3dResult');const rl=document.getElementById('d3dLabel');
+  const isText=typeof val==='string';
+  rv.style.fontSize=isText?(val.length>10?'26px':'34px'):'72px';
+  rv.textContent=val;
+  rl.textContent=label+(crit?' ⭐ КРИТ':fail?' 💀 ПРОВАЛ':'');
+  rv.style.color=crit?'var(--yellow)':fail?'var(--red)':'var(--white)';
+  const ring=document.querySelector('.d3d-ring');
+  ring.style.borderColor=crit?'var(--yellow)':fail?'var(--red)':'var(--accent)';
+  ring.style.boxShadow=crit?`0 0 60px var(--yellow),inset 0 0 40px rgba(255,215,0,.3)`:fail?`0 0 40px var(--red),inset 0 0 30px rgba(255,0,0,.2)`:`0 0 40px var(--glow),inset 0 0 40px var(--glow)`;
+  ov.classList.add('show');
+  d3dTimer=setTimeout(()=>ov.classList.remove('show'),6000);
+}
+function close3d(){if(d3dTimer)clearTimeout(d3dTimer);document.getElementById('d3dOverlay').classList.remove('show');}
+
+function triggerCritExplosion(){
+  const ov=document.getElementById('critOverlay');
+  const star=document.getElementById('critStar');
+  ov.style.display='flex';
+  star.style.animation='none';void star.offsetWidth;
+  star.style.animation='critExplosion .8s ease forwards';
+  setTimeout(()=>ov.style.display='none',900);
+}
+
+// ═══ LOG ═══
+function addLog(lbl,res,sides,crit,fail,det=''){
+  const now=new Date();const t=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  rlog.unshift({lbl,res,crit,fail,det,t});if(rlog.length>80)rlog.pop();
+  lastRoll={lbl,res,crit,fail,det};
+  rLog();
+}
+function rLog(){
+  const el=document.getElementById('rlog');
+  if(!rlog.length){el.innerHTML='<div class="empty-hint" style="text-align:center;padding:16px 0">Броски появятся здесь...</div>';return;}
+  el.innerHTML=rlog.map(e=>`<div class="re"><span class="rt">${e.t}</span><span class="rl">${e.lbl}${e.det?` <span style="color:var(--text3)">(${e.det})</span>`:''}</span><span class="rv ${e.crit?'crit':e.fail?'fail':''}">${e.res}${e.crit?' ★':e.fail?' ✗':''}</span></div>`).join('');
+}
+function clearLog(){rlog=[];rLog();}
+
+// ═══ DISCORD ═══
+function gn(){return document.getElementById('charName').value.trim()||'Персонаж';}
+function buildDCMsg(label,result,sides,crit,fail,det){
+  const tc=THEME_COLORS[currentTheme]||0xC8432A;
+  // Build rich embed JSON as JSON payload
+  const emoji=crit?'⭐':fail?'💀':'🎲';
+  const desc=`**Результат:** \`${result}\`${det?' *('+det+')*':''}\n${crit?'🌟 **КРИТИЧЕСКИЙ УСПЕХ!**':fail?'💀 **ПРОВАЛ!**':''}`;
+  return JSON.stringify({
+    username:`DeaD HanD 🎲`,
+    embeds:[{
+      title:`${emoji} ${gn()} — ${label}`,
+      description:desc,
+      color:tc,
+      footer:{text:`DeaD HanD v1.03 • ${currentTheme}`},
+      timestamp:new Date().toISOString()
+    }]
+  });
+}
+async function testWH(){
+  const url=document.getElementById('whUrl').value.trim();const el=document.getElementById('dcSt');
+  if(!url){el.textContent='Введите URL';el.className='ds err';return;}
+  if(!url.startsWith('https://discord.com/api/webhooks/')&&!url.startsWith('https://discordapp.com/api/webhooks/')){
+    el.textContent='✗ Неверный формат URL';el.className='ds err';return;
+  }
+  el.textContent='Проверяю...';el.className='ds';
+  try{
+    const body=JSON.stringify({username:'DeaD HanD 🎲',embeds:[{title:`✅ DeaD HanD подключён!`,description:`Персонаж: **${gn()}**\nТема: **${currentTheme}**`,color:THEME_COLORS[currentTheme]||0xC8432A,footer:{text:'DeaD HanD v1.03'}}]});
+    const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body});
+    if(r.ok||r.status===204){el.textContent='✓ Подключено';el.className='ds ok';toast('✓ Discord подключён');}
+    else{el.textContent=`✗ Ошибка ${r.status}`;el.className='ds err';}
+  }catch(e){el.textContent='✗ Нет соединения';el.className='ds err';}
+}
+async function sendLast(){
+  const url=document.getElementById('whUrl').value.trim();
+  if(!url){toast('Введите Webhook URL');return;}
+  if(!lastRoll){toast('Сначала сделайте бросок');return;}
+  const body=buildDCMsg(lastRoll.lbl,lastRoll.res,0,lastRoll.crit,lastRoll.fail,lastRoll.det);
+  try{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body});toast(r.ok||r.status===204?'📤 Отправлено':'✗ Ошибка');}catch(e){toast('✗ Нет соединения');}
+}
+async function whPost(content){
+  const url=document.getElementById('whUrl').value.trim();if(!url)return;
+  if(!url.startsWith('https://discord.com/api/webhooks/')&&!url.startsWith('https://discordapp.com/api/webhooks/'))return;
+  // content can be JSON string (embed) or plain string
+  let body;
+  try{JSON.parse(content);body=content;}
+  catch(e){body=JSON.stringify({content,username:'DeaD HanD 🎲'});}
+  try{await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body});}catch(e){}
+}
+
+// ═══ CLOUD ═══
+function hk(k){return 'dh_'+btoa(unescape(encodeURIComponent(k))).substring(0,22);}
+function cloudSave(){const k=document.getElementById('cloudKey').value.trim();if(!k){toast('Введи ключ');return;}localStorage.setItem(hk(k),JSON.stringify(collect()));toast('💾 Сохранено');isDirty=false;updInfo();const e=document.getElementById('clSt');e.textContent='✓ Сохранено';e.className='cl-st ok';}
+function cloudLoad(){const k=document.getElementById('cloudKey').value.trim();if(!k){toast('Введи ключ');return;}const d=localStorage.getItem(hk(k));if(!d){document.getElementById('clSt').textContent='Не найдено';document.getElementById('clSt').className='cl-st err';toast('Ничего нет');return;}applyS(JSON.parse(d));isDirty=false;updInfo();document.getElementById('clSt').textContent='✓ Загружен';document.getElementById('clSt').className='cl-st ok';toast('✓ Загружен');}
+function cloudSaveM(){const k=document.getElementById('cmKey').value.trim();const e=document.getElementById('cmSt');if(!k){e.textContent='Введи ключ';e.className='cl-st err';return;}localStorage.setItem(hk(k),JSON.stringify(collect()));isDirty=false;updInfo();e.textContent='✓ Сохранено: «'+k+'»';e.className='cl-st ok';}
+function cloudLoadM(){const k=document.getElementById('cmKey').value.trim();const e=document.getElementById('cmSt');if(!k){e.textContent='Введи ключ';e.className='cl-st err';return;}const d=localStorage.getItem(hk(k));if(!d){e.textContent='Не найдено';e.className='cl-st err';return;}applyS(JSON.parse(d));isDirty=false;updInfo();e.textContent='✓ Загружен: '+(JSON.parse(d).name||'?');e.className='cl-st ok';}
+
+// ═══ FILE SAVE/LOAD ═══
+function collect(){
+  return{name:document.getElementById('charName').value,level:iv('charLevel'),cash:iv('charCash'),
+    portrait:S.portrait||'',rationConsume:iv('rationConsume'),rationStock:iv('rationStock'),
+    hpCur:iv('hpCur'),hpMax:iv('hpMax'),arCur:iv('arCur'),arMax:iv('arMax'),
+    arBr:document.getElementById('arBr').value,arName:document.getElementById('arName').value,arHitDC:iv('arHitDC'),
+    prevoz:S.prevoz,skills:{...S.skills},conds:[...S.conds],exh:iv('exh'),psy:iv('psy'),inf:iv('inf'),
+    traumas:[...(S.traumas||[])],traits:[...(S.traits||[])],abilities:[...(S.abilities||[])],
+    inventory:[...(S.inventory||[])],
+    vladenie:[...document.querySelectorAll('#vlD .vl-tag.on,#vlB .vl-tag.on')].map(t=>t.textContent.trim()),
+    vladenieSvoe:[...(S.vladenieSvoe||[])],
+    notes:document.getElementById('notes').value,
+    whUrl:document.getElementById('whUrl').value,autoSend:document.getElementById('autoSend').checked,v:'1.03'};
+}
+function saveFile(){const d=collect();const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`DeaD_HanD_${(d.name||'персонаж').replace(/\s+/g,'_')}.json`;a.click();isDirty=false;updInfo();toast('💾 Файл скачан');}
+function handleLoad(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{applyS(JSON.parse(ev.target.result));isDirty=false;updInfo();toast('✓ Загружен');}catch(err){toast('Ошибка файла');}};r.readAsText(f);e.target.value='';}
+function applyS(d){
+  S={...S,...d};
+  const fm={charName:'name',charLevel:'level',charCash:'cash',hpCur:'hpCur',hpMax:'hpMax',arCur:'arCur',arMax:'arMax',arName:'arName',exh:'exh',psy:'psy',inf:'inf',rationConsume:'rationConsume',rationStock:'rationStock'};
+  Object.entries(fm).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.value=d[k]!==undefined?d[k]:(S[k]||'');});
+  document.getElementById('arBr').value=d.arBr||'Бр0';
+  document.getElementById('arHitDC').value=d.arHitDC||6;
+  document.getElementById('notes').value=d.notes||'';
+  document.getElementById('whUrl').value=d.whUrl||'';
+  document.getElementById('autoSend').checked=d.autoSend||false;
+  updHp();updAr();updPP();rSkills();rConds();rInv();rTraits();rAbils();rTraumas();restoreVl();restorePortrait();
+}
+function newChar(){
+  if(isDirty&&!confirm('Несохранённые изменения потеряются. Продолжить?'))return;
+  S={name:'',level:1,cash:0,portrait:'',rationConsume:1,rationStock:0,
+    hpCur:10,hpMax:10,arCur:0,arMax:0,arBr:'Бр0',arName:'',arHitDC:6,prevoz:0,
+    skills:{napor:0,provor:0,krepkost:0,razum:0,tehnika:0,kontakt:0},
+    conds:[],exh:0,psy:0,inf:0,traumas:[],traits:[],abilities:[],inventory:[],
+    vladenie:[],vladenieSvoe:[],notes:'',whUrl:'',autoSend:false};
+  applyS(S);isDirty=false;updInfo();toast('Новый персонаж');
+}
+
+// ═══ MODAL ═══
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-ov.open').forEach(m=>m.classList.remove('open'));});
+
+// ═══ TOAST ═══
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600);}
+window.addEventListener('beforeunload',e=>{if(isDirty){e.preventDefault();e.returnValue='';}});
+
+</script>
+</body>
+</html>
